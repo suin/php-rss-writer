@@ -4,7 +4,8 @@ php:
   - 5.4
 
 before_script:
+  - cd Tests
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install
 
-script: ./Tests/phpunit --coverage-text --configuration Tests/phpunit.xml.dist
+script: ./phpunit --coverage-text --configuration phpunit.xml.dist
