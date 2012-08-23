@@ -28,7 +28,7 @@ class Feed implements \Suin\RSSWriter\FeedInterface
 	 */
 	public function render()
 	{
-		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><rss version="2.0" />');
+		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><rss version="2.0" />', LIBXML_NOERROR|LIBXML_ERR_NONE|LIBXML_ERR_FATAL);
 
 		foreach ( $this->channels as $channel )
 		{

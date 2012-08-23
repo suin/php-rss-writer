@@ -169,4 +169,18 @@ class ItemTest extends \XoopsUnit\TestCase
 
 		$this->assertSame($expect, $item->asXML()->asXML());
 	}
+
+	public function test_fail_safe_against_invalid_string()
+	{
+		$item = new Item();
+		$item
+			->title("test\0test")
+			->url("url\0test")
+			->description("desc\0desc");
+		$expect = '<?xml version="1.0" encoding="UTF-8"?>
+<item><title>test</title><link>url</link><description>desc</description></item>
+';
+
+		$this->assertSame($expect, $item->asXML()->asXML());
+	}
 }

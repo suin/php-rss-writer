@@ -147,7 +147,7 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
 	 */
 	public function asXML()
 	{
-		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><channel></channel>');
+		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><channel></channel>', LIBXML_NOERROR|LIBXML_ERR_NONE|LIBXML_ERR_FATAL);
 		$xml->addChild('title', $this->title);
 		$xml->addChild('link', $this->url);
 		$xml->addChild('description', $this->description);

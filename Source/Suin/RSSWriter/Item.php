@@ -107,7 +107,7 @@ class Item implements \Suin\RSSWriter\ItemInterface
 	 */
 	public function asXML()
 	{
-		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item></item>');
+		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item></item>', LIBXML_NOERROR|LIBXML_ERR_NONE|LIBXML_ERR_FATAL);
 		$xml->addChild('title', $this->title);
 		$xml->addChild('link', $this->url);
 		$xml->addChild('description', $this->description);
