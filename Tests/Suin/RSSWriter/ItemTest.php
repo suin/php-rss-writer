@@ -155,4 +155,18 @@ class ItemTest extends \XoopsUnit\TestCase
 
 		$this->assertXmlStringEqualsXmlString($expect, $item->asXML()->asXML());
 	}
+
+	public function test_with_amp()
+	{
+		$item = new Item();
+		$item
+			->title('test&test')
+			->url('url&url')
+			->description('desc&desc');
+		$expect = '<?xml version="1.0" encoding="UTF-8"?>
+<item><title>test&amp;test</title><link>url&amp;url</link><description>desc&amp;desc</description></item>
+';
+
+		$this->assertSame($expect, $item->asXML()->asXML());
+	}
 }
