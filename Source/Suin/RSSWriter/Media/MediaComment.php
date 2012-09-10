@@ -23,7 +23,7 @@ class MediaComment implements XmlElementInterface
     public function buildXML(DOMNode $element)
     {
         $element->appendChild(
-            $element->ownerDocument->createElementNS(MediaContent::MEDIA_NAMESPACE, 'media:comment', htmlentities($this->comment))
+            $element->ownerDocument->createElementNS(MediaContent::MEDIA_NAMESPACE, 'media:comment', htmlspecialchars($this->comment))
         );
     }
 }

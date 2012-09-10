@@ -111,9 +111,9 @@ class Item implements \Suin\RSSWriter\ItemInterface
 	{
         $doc = $element->ownerDocument;
         $element->appendChild($item = $doc->createElement('item'));
-        $item->appendChild($doc->createElement('title', htmlentities($this->title)));
-        $item->appendChild($doc->createElement('link', htmlentities($this->url)));
-        $item->appendChild($doc->createElement('description', htmlentities($this->description)));
+        $item->appendChild($doc->createElement('title', htmlspecialchars($this->title)));
+        $item->appendChild($doc->createElement('link', htmlspecialchars($this->url)));
+        $item->appendChild($doc->createElement('description', htmlspecialchars($this->description)));
 
 		foreach ( $this->categories as $category )
 		{
