@@ -84,7 +84,7 @@ class ItemTest extends \XoopsUnit\TestCase
 	{
 		$item = new Item();
 		$channel = $this->getMock($this->channelInterface);
-		$channel->expects($this->once())->method('addItem')->with($item);
+		$channel->expects($this->once())->method('addChild')->with($item);
 		$this->assertSame($item, $item->appendTo($channel));
 	}
 
@@ -114,17 +114,21 @@ class ItemTest extends \XoopsUnit\TestCase
 		}
 
 		$expect ="
-		<item>
-			<title>{$data['title']}</title>
-			<link>{$data['url']}</link>
-			<description>{$data['description']}</description>
-			<category>{$data['categories'][0][0]}</category>
-			<category domain=\"{$data['categories'][1][1]}\">{$data['categories'][1][0]}</category>
-			<guid isPermaLink=\"true\">{$data['guid']}</guid>
-			<pubDate>{$nowString}</pubDate>
-		</item>
+		<rss>
+            <item>
+                <title>{$data['title']}</title>
+                <link>{$data['url']}</link>
+                <description>{$data['description']}</description>
+                <category>{$data['categories'][0][0]}</category>
+                <category domain=\"{$data['categories'][1][1]}\">{$data['categories'][1][0]}</category>
+                <guid isPermaLink=\"true\">{$data['guid']}</guid>
+                <pubDate>{$nowString}</pubDate>
+            </item>
+		</rss>
 		";
-		$this->assertXmlStringEqualsXmlString($expect, $item->buildXML()->asXML());
+        $doc = $this->getMockRss();
+        $item->buildXML($doc->documentElement);
+		$this->assertXmlStringEqualsXmlString($expect, $doc->saveXML());
 	}
 
 	public function testAsXML_test_Japanese()
@@ -146,14 +150,17 @@ class ItemTest extends \XoopsUnit\TestCase
 		}
 
 		$expect = "
-		<item>
-			<title>{$data['title']}</title>
-			<link>{$data['url']}</link>
-			<description>{$data['description']}</description>
-		</item>
+		<rss>
+            <item>
+                <title>{$data['title']}</title>
+                <link>{$data['url']}</link>
+                <description>{$data['description']}</description>
+            </item>
+		</rss>
 		";
-
-		$this->assertXmlStringEqualsXmlString($expect, $item->buildXML()->asXML());
+        $doc = $this->getMockRss();
+        $item->buildXML($doc->documentElement);
+        $this->assertXmlStringEqualsXmlString($expect, $doc->saveXML());
 	}
 
 	public function test_with_amp()
@@ -163,11 +170,13 @@ class ItemTest extends \XoopsUnit\TestCase
 			->title('test&test')
 			->url('url&url')
 			->description('desc&desc');
-		$expect = '<?xml version="1.0" encoding="UTF-8"?>
-<item><title>test&amp;test</title><link>url&amp;url</link><description>desc&amp;desc</description></item>
+		$expect = '<?xml version="1.0" encoding="utf-8"?>
+<rss><item><title>test&amp;test</title><link>url&amp;url</link><description>desc&amp;desc</description></item></rss>
 ';
 
-		$this->assertSame($expect, $item->buildXML()->asXML());
+        $doc = $this->getMockRss();
+        $item->buildXML($doc->documentElement);
+		$this->assertSame($expect, $doc->saveXML());
 	}
 
 	public function test_fail_safe_against_invalid_string()
@@ -177,10 +186,19 @@ class ItemTest extends \XoopsUnit\TestCase
 			->title("test\0test")
 			->url("url\0test")
 			->description("desc\0desc");
-		$expect = '<?xml version="1.0" encoding="UTF-8"?>
-<item><title>test</title><link>url</link><description>desc</description></item>
+		$expect = '<?xml version="1.0" encoding="utf-8"?>
+<rss><item><title>test</title><link>url</link><description>desc</description></item></rss>
 ';
 
-		$this->assertSame($expect, $item->buildXML()->asXML());
+        $doc = $this->getMockRss();
+        $item->buildXML($doc->documentElement);
+		$this->assertSame($expect, $doc->saveXML());
 	}
+
+    private function getMockRss()
+    {
+        $doc = new \DOMDocument('1.0', 'utf-8');
+        $doc->appendChild($root = $doc->createElement('rss'));
+        return $doc;
+    }
 }

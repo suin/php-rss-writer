@@ -117,8 +117,7 @@ class Item implements \Suin\RSSWriter\ItemInterface
 
 		foreach ( $this->categories as $category )
 		{
-            $categoryElement = $doc->createElement($doc->createElement('category', $category[0]));
-            $item->appendChild($categoryElement);
+            $item->appendChild($categoryElement = $doc->createElement('category', $category[0]));
 			if (isset($category[1])) {
                 $categoryElement->setAttribute('domain', $category[1]);
 			}
