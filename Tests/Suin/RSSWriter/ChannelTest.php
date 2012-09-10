@@ -102,7 +102,7 @@ class ChannelTest extends \XoopsUnit\TestCase
 			$this->reveal($channel)->attr($key, $value);
 		}
 
-		$this->assertXmlStringEqualsXmlString($expect, $channel->asXML()->asXML());
+		$this->assertXmlStringEqualsXmlString($expect, $channel->buildXML()->asXML());
 	}
 
 	public static function dataForAsXML()
@@ -247,6 +247,6 @@ class ChannelTest extends \XoopsUnit\TestCase
 			</channel>
 		';
 
-		$this->assertXmlStringEqualsXmlString($expect, $channel->asXML()->asXML());
+		$this->assertXmlStringEqualsXmlString($expect, $channel->buildXML()->asXML());
 	}
 }

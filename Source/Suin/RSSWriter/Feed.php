@@ -22,25 +22,24 @@ class Feed implements \Suin\RSSWriter\FeedInterface
 		return $this;
 	}
 
-	/**
-	 * Render XML
-	 * @return string
-	 */
-	public function render()
+    /**
+     * Render XML
+     * @param bool $formatOutput whether pretty format output. Defautls to true
+     * @return string
+     */
+	public function render($formatOutput = true)
 	{
-		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><rss version="2.0" />', LIBXML_NOERROR|LIBXML_ERR_NONE|LIBXML_ERR_FATAL);
+        $xml = new DOMDocument('1.0', 'utf-8');
+        $xml->formatOutput = $formatOutput;
+        $rss = $xml->createElement('rss');
+        $rss->setAttribute('version', '2.0');
+        $xml->appendChild($rss);
 
-		foreach ( $this->channels as $channel )
-		{
-			$toDom   = dom_import_simplexml($xml);
-			$fromDom = dom_import_simplexml($channel->asXML());
-			$toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
+		foreach ($this->channels as $channel) {
+            $channel->buildXML($xml->documentElement);
 		}
 
-		$dom = new DOMDocument('1.0', 'UTF-8');
-		$dom->appendChild($dom->importNode(dom_import_simplexml($xml), true));
-		$dom->formatOutput = true;
-		return $dom->saveXML();
+        return $xml->saveXML();
 	}
 
 	/**

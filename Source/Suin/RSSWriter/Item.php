@@ -3,6 +3,7 @@
 namespace Suin\RSSWriter;
 
 use \Suin\RSSWriter\SimpleXMLElement;
+use DOMNode;
 
 class Item implements \Suin\RSSWriter\ItemInterface
 {
@@ -20,6 +21,8 @@ class Item implements \Suin\RSSWriter\ItemInterface
 	protected $isPermalink;
 	/** @var int */
 	protected $pubDate;
+    /** @var XmlElementInterface[] */
+    protected $childs = array();
 
 	/**
 	 * Set item title
@@ -101,42 +104,52 @@ class Item implements \Suin\RSSWriter\ItemInterface
 		return $this;
 	}
 
-	/**
-	 * Return XML object
-	 * @return \Suin\RSSWriter\SimpleXMLElement
-	 */
-	public function asXML()
+    /**
+     * Return XML object
+     * @param \DOMNode $element
+     */
+	public function buildXML(DOMNode $element)
 	{
-		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item></item>', LIBXML_NOERROR|LIBXML_ERR_NONE|LIBXML_ERR_FATAL);
-		$xml->addChild('title', $this->title);
-		$xml->addChild('link', $this->url);
-		$xml->addChild('description', $this->description);
+        $doc = $element->ownerDocument;
+        $element->appendChild($item = $doc->createElement('item'));
+        $item->appendChild($doc->createElement('title', htmlentities($this->title)));
+        $item->appendChild($doc->createElement('link', htmlentities($this->url)));
+        $item->appendChild($doc->createElement('description', htmlentities($this->description)));
 
 		foreach ( $this->categories as $category )
 		{
-			$element = $xml->addChild('category', $category[0]);
-
-			if ( isset($category[1]) )
-			{
-				$element->addAttribute('domain', $category[1]);
+            $categoryElement = $doc->createElement($doc->createElement('category', $category[0]));
+            $item->appendChild($categoryElement);
+			if (isset($category[1])) {
+                $categoryElement->setAttribute('domain', $category[1]);
 			}
 		}
 
 		if ( $this->guid )
 		{
-			$guid = $xml->addChild('guid', $this->guid);
-
-			if ( $this->isPermalink )
-			{
-				$guid->addAttribute('isPermaLink', 'true');
+            $guid = $doc->createElement('guid', $this->guid);
+            $item->appendChild($guid);
+			if ($this->isPermalink){
+				$guid->setAttribute('isPermaLink', 'true');
 			}
 		}
 
 		if ( $this->pubDate !== null )
 		{
-			$xml->addChild('pubDate', date(DATE_RSS, $this->pubDate));
+            $item->appendChild($doc->createElement('pubDate', date(DATE_RSS, $this->pubDate)));
 		}
-
-		return $xml;
+        foreach($this->childs as $child) {
+            $child->buildXML($item);
+        }
 	}
+
+    /**
+     * Add child element
+     * @param $child
+     * @return mixed
+     */
+    public function addChild(XmlElementInterface $child)
+    {
+        $this->childs[] = $child;
+    }
 }

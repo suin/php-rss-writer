@@ -124,7 +124,7 @@ class ItemTest extends \XoopsUnit\TestCase
 			<pubDate>{$nowString}</pubDate>
 		</item>
 		";
-		$this->assertXmlStringEqualsXmlString($expect, $item->asXML()->asXML());
+		$this->assertXmlStringEqualsXmlString($expect, $item->buildXML()->asXML());
 	}
 
 	public function testAsXML_test_Japanese()
@@ -153,7 +153,7 @@ class ItemTest extends \XoopsUnit\TestCase
 		</item>
 		";
 
-		$this->assertXmlStringEqualsXmlString($expect, $item->asXML()->asXML());
+		$this->assertXmlStringEqualsXmlString($expect, $item->buildXML()->asXML());
 	}
 
 	public function test_with_amp()
@@ -167,7 +167,7 @@ class ItemTest extends \XoopsUnit\TestCase
 <item><title>test&amp;test</title><link>url&amp;url</link><description>desc&amp;desc</description></item>
 ';
 
-		$this->assertSame($expect, $item->asXML()->asXML());
+		$this->assertSame($expect, $item->buildXML()->asXML());
 	}
 
 	public function test_fail_safe_against_invalid_string()
@@ -181,6 +181,6 @@ class ItemTest extends \XoopsUnit\TestCase
 <item><title>test</title><link>url</link><description>desc</description></item>
 ';
 
-		$this->assertSame($expect, $item->asXML()->asXML());
+		$this->assertSame($expect, $item->buildXML()->asXML());
 	}
 }

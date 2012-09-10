@@ -5,7 +5,7 @@ namespace Suin\RSSWriter;
 use \Suin\RSSWriter\ChannelInterface;
 use \Suin\RSSWriter\SimpleXMLElement;
 
-interface ItemInterface
+interface ItemInterface extends XmlElementInterface
 {
 	/**
 	 * Set item title
@@ -51,16 +51,17 @@ interface ItemInterface
 	 */
 	public function pubDate($pubDate);
 
+    /**
+     * Add child element
+     * @param $child
+     * @return mixed
+     */
+    public function addChild(XmlElementInterface $child);
+
 	/**
 	 * Append item to the channel
 	 * @param \Suin\RSSWriter\ChannelInterface $channel
 	 * @return $this
 	 */
 	public function appendTo(ChannelInterface $channel);
-
-	/**
-	 * Return XML object
-	 * @return \Suin\RSSWriter\SimpleXMLElement
-	 */
-	public function asXML();
 }

@@ -5,7 +5,7 @@ namespace Suin\RSSWriter;
 use \Suin\RSSWriter\FeedInterface;
 use \Suin\RSSWriter\ItemInterface;
 
-interface ChannelInterface
+interface ChannelInterface extends XmlElementInterface
 {
 	/**
 	 * Set channel title
@@ -82,10 +82,4 @@ interface ChannelInterface
 	 * @return $this
 	 */
 	public function appendTo(FeedInterface $feed);
-
-	/**
-	 * Return XML object
-	 * @return \Suin\RSSWriter\SimpleXMLElement
-	 */
-	public function asXML();
 }
