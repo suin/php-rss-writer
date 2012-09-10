@@ -4,7 +4,6 @@ namespace Suin\RSSWriter;
 
 use \DOMDocument;
 use \Suin\RSSWriter\ChannelInterface;
-use \Suin\RSSWriter\SimpleXMLElement;
 
 class Feed implements \Suin\RSSWriter\FeedInterface
 {

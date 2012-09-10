@@ -2,7 +2,7 @@
 
 namespace Suin\RSSWriter;
 
-use \Suin\RSSWriter\SimpleXMLElement;
+use Suin\RSSWriter\XmlElementInterface;
 use DOMNode;
 
 class Channel implements \Suin\RSSWriter\ChannelInterface
@@ -23,7 +23,7 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
 	protected $lastBuildDate;
 	/** @var int */
 	protected $ttl;
-	/** @var \Suin\RSSWriter\ItemInterface[] */
+	/** @var \Suin\RSSWriter\XmlElemenTInterface[] */
 	protected $items = array();
 
 	/**
@@ -120,12 +120,12 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
 		return $this;
 	}
 
-	/**
-	 * Add item object
-	 * @param \Suin\RSSWriter\ItemInterface $item
-	 * @return $this
-	 */
-	public function addItem(ItemInterface $item)
+    /**
+     * Add item object
+     * @param \Suin\RSSWriter\XmlElementInterface $item
+     * @return $this
+     */
+	public function addChild(XmlElementInterface $item)
 	{
 		$this->items[] = $item;
 		return $this;

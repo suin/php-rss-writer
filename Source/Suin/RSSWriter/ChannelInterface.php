@@ -69,12 +69,12 @@ interface ChannelInterface extends XmlElementInterface
 	 */
 	public function ttl($ttl);
 
-	/**
-	 * Add item object
-	 * @param \Suin\RSSWriter\ItemInterface $item
-	 * @return $this
-	 */
-	public function addItem(ItemInterface $item);
+    /**
+     * Add item object
+     * @param \Suin\RSSWriter\XmlElementInterface $item
+     * @return $this
+     */
+	public function addChild(XmlElementInterface $item);
 
 	/**
 	 * Append to feed

@@ -3,7 +3,6 @@
 namespace Suin\RSSWriter;
 
 use \Suin\RSSWriter\ChannelInterface;
-use \Suin\RSSWriter\SimpleXMLElement;
 
 interface ItemInterface extends XmlElementInterface
 {

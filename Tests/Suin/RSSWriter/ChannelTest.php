@@ -75,7 +75,7 @@ class ChannelTest extends \XoopsUnit\TestCase
 	{
 		$item = $this->getMock($this->itemInterface);
 		$channel = new Channel();
-		$this->assertSame($channel, $channel->addItem($item));
+		$this->assertSame($channel, $channel->addChild($item));
 		$this->assertAttributeSame(array($item), 'items', $channel);
 	}
 

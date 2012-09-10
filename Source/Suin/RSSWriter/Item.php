@@ -2,7 +2,6 @@
 
 namespace Suin\RSSWriter;
 
-use \Suin\RSSWriter\SimpleXMLElement;
 use DOMNode;
 
 class Item implements \Suin\RSSWriter\ItemInterface
@@ -100,7 +99,7 @@ class Item implements \Suin\RSSWriter\ItemInterface
 	 */
 	public function appendTo(ChannelInterface $channel)
 	{
-		$channel->addItem($this);
+		$channel->addChild($this);
 		return $this;
 	}
 
