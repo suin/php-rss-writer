@@ -75,7 +75,7 @@ class ChannelTest extends \XoopsUnit\TestCase
 	{
 		$item = $this->getMock($this->itemInterface);
 		$channel = new Channel();
-		$this->assertSame($channel, $channel->addItem($item));
+		$this->assertSame($channel, $channel->addChild($item));
 		$this->assertAttributeSame(array($item), 'items', $channel);
 	}
 
@@ -102,7 +102,12 @@ class ChannelTest extends \XoopsUnit\TestCase
 			$this->reveal($channel)->attr($key, $value);
 		}
 
-		$this->assertXmlStringEqualsXmlString($expect, $channel->asXML()->asXML());
+        $document = new \DOMDocument('1.0', 'utf-8');
+        $root = $document->createElement('rss');
+        $document->appendChild($root);
+        $document->formatOutput = true;
+        $channel->buildXML($root);
+		$this->assertXmlStringEqualsXmlString($expect, $document->saveXML());
 	}
 
 	public static function dataForAsXML()
@@ -113,11 +118,13 @@ class ChannelTest extends \XoopsUnit\TestCase
 		return array(
 			array(
 				"
-				<channel>
-					<title>GoUpstate.com News Headlines</title>
-					<link>http://www.goupstate.com/</link>
-					<description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
-				</channel>
+				<rss>
+                    <channel>
+                        <title>GoUpstate.com News Headlines</title>
+                        <link>http://www.goupstate.com/</link>
+                        <description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
+                    </channel>
+				</rss>
 				",
 				array(
 					'title'         => "GoUpstate.com News Headlines",
@@ -127,12 +134,14 @@ class ChannelTest extends \XoopsUnit\TestCase
 			),
 			array(
 				"
-				<channel>
-					<title>GoUpstate.com News Headlines</title>
-					<link>http://www.goupstate.com/</link>
-					<description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
-					<language>en-us</language>
-				</channel>
+                <rss>
+                    <channel>
+                        <title>GoUpstate.com News Headlines</title>
+                        <link>http://www.goupstate.com/</link>
+                        <description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
+                        <language>en-us</language>
+                    </channel>
+				</rss>
 				",
 				array(
 					'title'         => "GoUpstate.com News Headlines",
@@ -143,12 +152,14 @@ class ChannelTest extends \XoopsUnit\TestCase
 			),
 			array(
 				"
-				<channel>
-					<title>GoUpstate.com News Headlines</title>
-					<link>http://www.goupstate.com/</link>
-					<description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
-					<pubDate>{$nowString}</pubDate>
-				</channel>
+				<rss>
+                    <channel>
+                        <title>GoUpstate.com News Headlines</title>
+                        <link>http://www.goupstate.com/</link>
+                        <description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
+                        <pubDate>{$nowString}</pubDate>
+                    </channel>
+				</rss>
 				",
 				array(
 					'title'         => "GoUpstate.com News Headlines",
@@ -159,12 +170,14 @@ class ChannelTest extends \XoopsUnit\TestCase
 			),
 			array(
 				"
-				<channel>
-					<title>GoUpstate.com News Headlines</title>
-					<link>http://www.goupstate.com/</link>
-					<description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
-					<lastBuildDate>{$nowString}</lastBuildDate>
-				</channel>
+				<rss>
+                    <channel>
+                        <title>GoUpstate.com News Headlines</title>
+                        <link>http://www.goupstate.com/</link>
+                        <description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
+                        <lastBuildDate>{$nowString}</lastBuildDate>
+                    </channel>
+				</rss>
 				",
 				array(
 					'title'         => "GoUpstate.com News Headlines",
@@ -175,12 +188,14 @@ class ChannelTest extends \XoopsUnit\TestCase
 			),
 			array(
 				"
-				<channel>
-					<title>GoUpstate.com News Headlines</title>
-					<link>http://www.goupstate.com/</link>
-					<description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
-					<ttl>60</ttl>
-				</channel>
+				<rss>
+                    <channel>
+                        <title>GoUpstate.com News Headlines</title>
+                        <link>http://www.goupstate.com/</link>
+                        <description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
+                        <ttl>60</ttl>
+                    </channel>
+                </rss>
 				",
 				array(
 					'title'         => "GoUpstate.com News Headlines",
@@ -191,12 +206,14 @@ class ChannelTest extends \XoopsUnit\TestCase
 			),
 			array(
 				"
-				<channel>
-					<title>GoUpstate.com News Headlines</title>
-					<link>http://www.goupstate.com/</link>
-					<description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
-					<copyright>Copyright 2002, Spartanburg Herald-Journal</copyright>
-				</channel>
+				<rss>
+                    <channel>
+                        <title>GoUpstate.com News Headlines</title>
+                        <link>http://www.goupstate.com/</link>
+                        <description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
+                        <copyright>Copyright 2002, Spartanburg Herald-Journal</copyright>
+                    </channel>
+                </rss>
 				",
 				array(
 					'title'         => "GoUpstate.com News Headlines",
@@ -213,16 +230,12 @@ class ChannelTest extends \XoopsUnit\TestCase
 	{
 		$channel = new Channel();
 
-		$xml1 = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item><title>item1</title></item>');
-		$xml2 = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item><title>item2</title></item>');
-		$xml3 = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item><title>item3</title></item>');
-
 		$item1 = $this->getMock($this->itemInterface);
-		$item1->expects($this->once())->method('asXML')->will($this->returnValue($xml1));
+		$item1->expects($this->once())->method('buildXML')->with($this->isInstanceOf('\DOMNode'));
 		$item2= $this->getMock($this->itemInterface);
-		$item2->expects($this->once())->method('asXML')->will($this->returnValue($xml2));
+		$item2->expects($this->once())->method('buildXML')->with($this->isInstanceOf('\DOMNode'));
 		$item3 = $this->getMock($this->itemInterface);
-		$item3->expects($this->once())->method('asXML')->will($this->returnValue($xml3));
+		$item3->expects($this->once())->method('buildXML')->with($this->isInstanceOf('\DOMNode'));
 
 		$this->reveal($channel)
 			->attr('title', "GoUpstate.com News Headlines")
@@ -230,23 +243,57 @@ class ChannelTest extends \XoopsUnit\TestCase
 			->attr('description', "The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.")
 			->attr('items', array($item1, $item2, $item3));
 
-		$expect = '<?xml version="1.0" encoding="UTF-8" ?>
-			<channel>
-				<title>GoUpstate.com News Headlines</title>
-				<link>http://www.goupstate.com/</link>
-				<description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
-				<item>
-					<title>item1</title>
-				</item>
-				<item>
-					<title>item2</title>
-				</item>
-				<item>
-					<title>item3</title>
-				</item>
-			</channel>
+		$expect = '<?xml version="1.0" encoding="utf-8" ?>
+		    <rss>
+                <channel>
+                    <title>GoUpstate.com News Headlines</title>
+                    <link>http://www.goupstate.com/</link>
+                    <description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
+                </channel>
+		    </rss>
 		';
 
-		$this->assertXmlStringEqualsXmlString($expect, $channel->asXML()->asXML());
+        $document = new \DOMDocument('1.0', 'utf-8');
+        $root = $document->createElement('rss');
+        $document->appendChild($root);
+        $document->formatOutput = true;
+        $channel->buildXML($root);
+		$this->assertXmlStringEqualsXmlString($expect, $document->saveXML());
 	}
+
+    public function testJapaneseTitle()
+    {
+        $channel = new Channel();
+        $feed = new Feed();
+
+        $channel1 = new Channel();
+        $this->reveal($channel1)->attr('title', '日本語1');
+        $channel2 = new Channel();
+        $this->reveal($channel2)->attr('title', '日本語2');
+        $channel3 = new Channel();
+        $this->reveal($channel3)->attr('title', '日本語3');
+        $this->reveal($feed)->attr('channels', array($channel1, $channel2, $channel3));
+        $expect = <<<XML
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>日本語1</title>
+    <link></link>
+    <description></description>
+  </channel>
+  <channel>
+    <title>日本語2</title>
+    <link></link>
+    <description></description>
+  </channel>
+  <channel>
+    <title>日本語3</title>
+    <link></link>
+    <description></description>
+  </channel>
+</rss>
+
+XML;
+        $this->assertSame($expect, $feed->render());
+    }
 }

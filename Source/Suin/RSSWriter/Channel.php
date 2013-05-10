@@ -2,7 +2,8 @@
 
 namespace Suin\RSSWriter;
 
-use \Suin\RSSWriter\SimpleXMLElement;
+use Suin\RSSWriter\XmlElementInterface;
+use DOMNode;
 
 class Channel implements \Suin\RSSWriter\ChannelInterface
 {
@@ -22,7 +23,7 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
 	protected $lastBuildDate;
 	/** @var int */
 	protected $ttl;
-	/** @var \Suin\RSSWriter\ItemInterface[] */
+	/** @var \Suin\RSSWriter\XmlElemenTInterface[] */
 	protected $items = array();
 
 	/**
@@ -119,12 +120,12 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
 		return $this;
 	}
 
-	/**
-	 * Add item object
-	 * @param \Suin\RSSWriter\ItemInterface $item
-	 * @return $this
-	 */
-	public function addItem(ItemInterface $item)
+    /**
+     * Add item object
+     * @param \Suin\RSSWriter\XmlElementInterface $item
+     * @return $this
+     */
+	public function addChild(XmlElementInterface $item)
 	{
 		$this->items[] = $item;
 		return $this;
@@ -141,49 +142,45 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
 		return $this;
 	}
 
-	/**
-	 * Return XML object
-	 * @return \Suin\RSSWriter\SimpleXMLElement
-	 */
-	public function asXML()
+    /**
+     * Return XML object
+     * @param \DOMNode $element
+     */
+	public function buildXML(DOMNode $element)
 	{
-		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><channel></channel>', LIBXML_NOERROR|LIBXML_ERR_NONE|LIBXML_ERR_FATAL);
-		$xml->addChild('title', $this->title);
-		$xml->addChild('link', $this->url);
-		$xml->addChild('description', $this->description);
+        $doc = $element->ownerDocument;
+        $channel = $doc->createElement('channel');
+        $element->appendChild($channel);
+        $channel->appendChild($doc->createElement('title', htmlentities($this->title)));
+        $channel->appendChild($doc->createElement('link', htmlentities($this->url)));
+        $channel->appendChild($doc->createElement('description', htmlentities($this->description)));
 
 		if ( $this->language !== null )
 		{
-			$xml->addChild('language', $this->language);
+			$channel->appendChild($doc->createElement('language', htmlentities($this->language)));
 		}
 
 		if ( $this->copyright !== null )
 		{
-			$xml->addChild('copyright', $this->copyright);
+			$channel->appendChild($doc->createElement('copyright', $this->copyright));
 		}
 
 		if ( $this->pubDate !== null )
 		{
-			$xml->addChild('pubDate', date(DATE_RSS, $this->pubDate));
+			$channel->appendChild($doc->createElement('pubDate', date(DATE_RSS, $this->pubDate)));
 		}
 
 		if ( $this->lastBuildDate !== null )
 		{
-			$xml->addChild('lastBuildDate', date(DATE_RSS, $this->lastBuildDate));
+			$channel->appendChild($doc->createElement('lastBuildDate', date(DATE_RSS, $this->lastBuildDate)));
 		}
 
 		if ( $this->ttl !== null )
 		{
-			$xml->addChild('ttl', $this->ttl);
+			$channel->appendChild($doc->createElement('ttl', $this->ttl));
 		}
-
-		foreach ( $this->items as $item )
-		{
-			$toDom   = dom_import_simplexml($xml);
-			$fromDom = dom_import_simplexml($item->asXML());
-			$toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
-		}
-
-		return $xml;
+        foreach($this->items as $item) {
+            $item->buildXML($channel);
+        }
 	}
 }
