@@ -151,13 +151,13 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
         $doc = $element->ownerDocument;
         $channel = $doc->createElement('channel');
         $element->appendChild($channel);
-        $channel->appendChild($doc->createElement('title', $this->title));
-        $channel->appendChild($doc->createElement('link', $this->url));
-        $channel->appendChild($doc->createElement('description', $this->description));
+        $channel->appendChild($doc->createElement('title', htmlentities($this->title)));
+        $channel->appendChild($doc->createElement('link', htmlentities($this->url)));
+        $channel->appendChild($doc->createElement('description', htmlentities($this->description)));
 
 		if ( $this->language !== null )
 		{
-			$channel->appendChild($doc->createElement('language', $this->language));
+			$channel->appendChild($doc->createElement('language', htmlentities($this->language)));
 		}
 
 		if ( $this->copyright !== null )
