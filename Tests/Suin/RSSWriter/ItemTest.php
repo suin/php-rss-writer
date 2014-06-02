@@ -97,6 +97,14 @@ class ItemTest extends \XoopsUnit\TestCase
 		$this->assertAttributeSame($enclosure, 'enclosure', $item);
 	}
 
+    public function testAuthor()
+    {
+        $author = uniqid();
+        $item = new Item();
+        $this->assertSame($item, $item->author($author));
+        $this->assertAttributeSame($author, 'author', $item);
+    }
+
 	public function testAsXML()
 	{
 		$now = time();
@@ -116,7 +124,8 @@ class ItemTest extends \XoopsUnit\TestCase
             'enclosure' => array(
                 'url'    => 'http://link-to-audio-file.com/test.mp3',
                 'length' => 4992,
-                'type'   => 'audio/mpeg')
+                'type'   => 'audio/mpeg'),
+            'author' => 'Hidehito Nozawa aka Suin'
 		);
 
 		$item = new Item();
@@ -136,6 +145,7 @@ class ItemTest extends \XoopsUnit\TestCase
 			<guid isPermaLink=\"true\">{$data['guid']}</guid>
 			<pubDate>{$nowString}</pubDate>
             <enclosure url=\"{$data['enclosure']['url']}\" length=\"{$data['enclosure']['length']}\" type=\"{$data['enclosure']['type']}\"/>
+            <author>{$data['author']}</author>
 		</item>
 		";
 		$this->assertXmlStringEqualsXmlString($expect, $item->asXML()->asXML());

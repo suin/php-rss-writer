@@ -22,6 +22,8 @@ class Item implements \Suin\RSSWriter\ItemInterface
 	protected $pubDate;
     /** @var array */
     protected $enclosure;
+    /** @var string */
+    protected $author;
 
 	/**
 	 * Set item title
@@ -105,7 +107,17 @@ class Item implements \Suin\RSSWriter\ItemInterface
 		return $this;
 	}
 
-	/**
+    /**
+     * Set the author
+     * @param string $author Email of item author
+     * @return $this
+     */
+    public function author($author) {
+        $this->author = $author;
+        return $this;
+    }
+
+    /**
 	 * Append item to the channel
 	 * @param \Suin\RSSWriter\ChannelInterface $channel
 	 * @return $this
@@ -164,6 +176,11 @@ class Item implements \Suin\RSSWriter\ItemInterface
                 $element->addAttribute('length', $this->enclosure['length']);
             }
 		}
+
+        if ( ! empty($this->author) ) {
+            $xml->addChild('author', $this->author);
+        }
+
 		return $xml;
 	}
 }
