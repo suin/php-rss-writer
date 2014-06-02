@@ -97,13 +97,13 @@ class ItemTest extends \XoopsUnit\TestCase
 		$this->assertAttributeSame($enclosure, 'enclosure', $item);
 	}
 
-    public function testAuthor()
-    {
-        $author = uniqid();
-        $item = new Item();
-        $this->assertSame($item, $item->author($author));
-        $this->assertAttributeSame($author, 'author', $item);
-    }
+	public function testAuthor()
+	{
+		$author = uniqid();
+		$item = new Item();
+		$this->assertSame($item, $item->author($author));
+		$this->assertAttributeSame($author, 'author', $item);
+	}
 
 	public function testAsXML()
 	{
@@ -125,7 +125,7 @@ class ItemTest extends \XoopsUnit\TestCase
                 'url'    => 'http://link-to-audio-file.com/test.mp3',
                 'length' => 4992,
                 'type'   => 'audio/mpeg'),
-            'author' => 'Hidehito Nozawa aka Suin'
+			'author' => 'Hidehito Nozawa aka Suin'
 		);
 
 		$item = new Item();

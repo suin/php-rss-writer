@@ -107,15 +107,16 @@ class Item implements \Suin\RSSWriter\ItemInterface
 		return $this;
 	}
 
-    /**
-     * Set the author
-     * @param string $author Email of item author
-     * @return $this
-     */
-    public function author($author) {
-        $this->author = $author;
-        return $this;
-    }
+	/**
+	 * Set the author
+	 * @param string $author Email of item author
+	 * @return $this
+	 */
+	public function author($author)
+	{
+		$this->author = $author;
+		return $this;
+	}
 
     /**
 	 * Append item to the channel
@@ -177,9 +178,10 @@ class Item implements \Suin\RSSWriter\ItemInterface
             }
 		}
 
-        if ( ! empty($this->author) ) {
-            $xml->addChild('author', $this->author);
-        }
+		if ( ! empty($this->author) )
+		{
+			$xml->addChild('author', $this->author);
+		}
 
 		return $xml;
 	}

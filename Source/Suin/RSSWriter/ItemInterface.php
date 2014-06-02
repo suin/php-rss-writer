@@ -60,12 +60,12 @@ interface ItemInterface
 	 */
 	public function enclosure($url, $length = 0, $type = 'audio/mpeg');
 
-    /**
-     * Set the author
-     * @param string $author Email of item author
-     * @return $this
-     */
-    public function author($author);
+	/**
+	 * Set the author
+	 * @param string $author Email of item author
+	 * @return $this
+	 */
+	public function author($author);
 
 	/**
 	 * Append item to the channel
