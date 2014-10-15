@@ -20,10 +20,10 @@ class Item implements \Suin\RSSWriter\ItemInterface
 	protected $isPermalink;
 	/** @var int */
 	protected $pubDate;
-    /** @var array */
-    protected $enclosure;
-    /** @var string */
-    protected $author;
+	/** @var array */
+	protected $enclosure;
+	/** @var string */
+	protected $author;
 
 	/**
 	 * Set item title
@@ -95,10 +95,10 @@ class Item implements \Suin\RSSWriter\ItemInterface
 	}
 
 	/**
-	 * Set enclosure 
+	 * Set enclosure
 	 * @param var $url Url to media file
-     * @param int $length Length in bytes of the media file
-     * @param var $type Media type, default is audio/mpeg
+	 * @param int $length Length in bytes of the media file
+	 * @param var $type Media type, default is audio/mpeg
 	 * @return $this
 	 */
 	public function enclosure($url, $length = 0, $type = 'audio/mpeg')
@@ -118,7 +118,7 @@ class Item implements \Suin\RSSWriter\ItemInterface
 		return $this;
 	}
 
-    /**
+	/**
 	 * Append item to the channel
 	 * @param \Suin\RSSWriter\ChannelInterface $channel
 	 * @return $this
@@ -135,7 +135,7 @@ class Item implements \Suin\RSSWriter\ItemInterface
 	 */
 	public function asXML()
 	{
-		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item></item>', LIBXML_NOERROR|LIBXML_ERR_NONE|LIBXML_ERR_FATAL);
+		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item></item>', LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_ERR_FATAL);
 		$xml->addChild('title', $this->title);
 		$xml->addChild('link', $this->url);
 		$xml->addChild('description', $this->description);
@@ -165,17 +165,16 @@ class Item implements \Suin\RSSWriter\ItemInterface
 			$xml->addChild('pubDate', date(DATE_RSS, $this->pubDate));
 		}
 
-
-        if (is_array($this->enclosure) && (count($this->enclosure) == 3))
+		if (is_array($this->enclosure) && (count($this->enclosure) == 3))
 		{
 			$element = $xml->addChild('enclosure');
-            $element->addAttribute('url', $this->enclosure['url']);
-            $element->addAttribute('type', $this->enclosure['type']);
-            
-            if ($this->enclosure['length']) 
-            {
-                $element->addAttribute('length', $this->enclosure['length']);
-            }
+			$element->addAttribute('url', $this->enclosure['url']);
+			$element->addAttribute('type', $this->enclosure['type']);
+
+			if ($this->enclosure['length'])
+			{
+				$element->addAttribute('length', $this->enclosure['length']);
+			}
 		}
 
 		if ( ! empty($this->author) )
