@@ -91,7 +91,7 @@ class ItemTest extends \XoopsUnit\TestCase
 	public function testEnclosure()
 	{
 		$url = uniqid();
-        $enclosure = array('url' => $url, 'length' => 0, 'type' => 'audio/mpeg');
+		$enclosure = array('url' => $url, 'length' => 0, 'type' => 'audio/mpeg');
 		$item = new Item();
 		$this->assertSame($item, $item->enclosure($url));
 		$this->assertAttributeSame($enclosure, 'enclosure', $item);
@@ -121,10 +121,10 @@ class ItemTest extends \XoopsUnit\TestCase
 			'guid' => "http://inessential.com/2002/09/01.php#a2",
 			'isPermalink' => true,
 			'pubDate' => $now,
-            'enclosure' => array(
-                'url'    => 'http://link-to-audio-file.com/test.mp3',
-                'length' => 4992,
-                'type'   => 'audio/mpeg'),
+			'enclosure' => array(
+				'url'    => 'http://link-to-audio-file.com/test.mp3',
+				'length' => 4992,
+				'type'   => 'audio/mpeg'),
 			'author' => 'Hidehito Nozawa aka Suin'
 		);
 
@@ -135,17 +135,17 @@ class ItemTest extends \XoopsUnit\TestCase
 			$this->reveal($item)->attr($key, $value);
 		}
 
-		$expect ="
+		$expect = "
 		<item>
 			<title>{$data['title']}</title>
 			<link>{$data['url']}</link>
 			<description>{$data['description']}</description>
 			<category>{$data['categories'][0][0]}</category>
 			<category domain=\"{$data['categories'][1][1]}\">{$data['categories'][1][0]}</category>
-			<guid isPermaLink=\"true\">{$data['guid']}</guid>
+			<guid>{$data['guid']}</guid>
 			<pubDate>{$nowString}</pubDate>
-            <enclosure url=\"{$data['enclosure']['url']}\" length=\"{$data['enclosure']['length']}\" type=\"{$data['enclosure']['type']}\"/>
-            <author>{$data['author']}</author>
+			<enclosure url=\"{$data['enclosure']['url']}\" type=\"{$data['enclosure']['type']}\" length=\"{$data['enclosure']['length']}\"/>
+			<author>{$data['author']}</author>
 		</item>
 		";
 		$this->assertXmlStringEqualsXmlString($expect, $item->asXML()->asXML());
