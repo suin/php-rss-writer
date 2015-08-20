@@ -1,12 +1,14 @@
 <?php
 
 // Load test target classes
-spl_autoload_register(function($c) { @include_once strtr($c, '\\_', '//').'.php'; });
-set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__.'/Source');
+spl_autoload_register(function ($c) {
+	@include_once strtr($c, '\\_', '//') . '.php';
+});
+set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/Source');
 
-use \Suin\RSSWriter\Feed;
-use \Suin\RSSWriter\Channel;
-use \Suin\RSSWriter\Item;
+use Suin\RSSWriter\Channel;
+use Suin\RSSWriter\Feed;
+use Suin\RSSWriter\Item;
 
 $feed = new Feed();
 
