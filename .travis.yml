@@ -8,7 +8,5 @@ php:
 
 before_script:
   - cd tests
-  - wget http://getcomposer.org/composer.phar
-  - php composer.phar install
 
-script: ./phpunit --coverage-text --configuration phpunit.xml.dist
+script: phpunit --coverage-text --configuration phpunit.xml.dist
