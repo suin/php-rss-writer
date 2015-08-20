@@ -2,7 +2,9 @@
 
 namespace Suin\RSSWriter;
 
-class ItemTest extends \XoopsUnit\TestCase
+use XoopsUnit\TestCase;
+
+class ItemTest extends TestCase
 {
     private $channelInterface = '\Suin\RSSWriter\ChannelInterface';
 
@@ -141,7 +143,7 @@ class ItemTest extends \XoopsUnit\TestCase
 			<description>{$data['description']}</description>
 			<category>{$data['categories'][0][0]}</category>
 			<category domain=\"{$data['categories'][1][1]}\">{$data['categories'][1][0]}</category>
-			<guid>{$data['guid']}</guid>
+			<guid isPermaLink=\"true\">{$data['guid']}</guid>
 			<pubDate>{$nowString}</pubDate>
 			<enclosure url=\"{$data['enclosure']['url']}\" type=\"{$data['enclosure']['type']}\" length=\"{$data['enclosure']['length']}\"/>
 			<author>{$data['author']}</author>
@@ -152,8 +154,6 @@ class ItemTest extends \XoopsUnit\TestCase
 
     public function testAsXML_test_Japanese()
     {
-        $now = time();
-
         $data = array(
             'title' => "Venice Film Festival",
             'url' => 'http://nytimes.com/2004/12/07FEST.html',
