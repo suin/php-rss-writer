@@ -91,6 +91,6 @@ XML;
                 <channel><title>channel3</title></channel>
             </rss>
         ';
-        $this->assertXmlStringEqualsXmlString($expect, $feed);
+        $this->assertXmlStringEqualsXmlString($expect, strval($feed));
     }
 }
