@@ -9,6 +9,7 @@ This library can also be used to publish Podcasts.
 [![Daily Downloads](https://poser.pugx.org/suin/php-rss-writer/d/daily)](https://packagist.org/packages/suin/php-rss-writer)
 [![License](https://poser.pugx.org/suin/php-rss-writer/license)](https://packagist.org/packages/suin/php-rss-writer)
 [![Build Status](https://secure.travis-ci.org/suin/php-rss-writer.png?branch=master)](http://travis-ci.org/suin/php-rss-writer)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/1c5e4e28e7e24f6ab7221b2166b5b6c7)](https://www.codacy.com/app/suinyeze/php-rss-writer)
 
 ## Quick demo
 
