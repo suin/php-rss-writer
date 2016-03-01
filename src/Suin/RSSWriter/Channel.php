@@ -33,7 +33,7 @@ class Channel implements ChannelInterface
     protected $ttl;
 
     /** @var ItemInterface[] */
-    protected $items = array();
+    protected $items = [];
 
     /**
      * Set channel title

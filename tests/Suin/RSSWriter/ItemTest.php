@@ -37,9 +37,9 @@ class ItemTest extends TestCase
         $category = uniqid();
         $item = new Item();
         $this->assertSame($item, $item->category($category));
-        $this->assertAttributeSame(array(
-            array($category, null),
-        ), 'categories', $item);
+        $this->assertAttributeSame([
+            [$category, null],
+        ], 'categories', $item);
     }
 
     public function testCategory_with_domain()
@@ -48,9 +48,9 @@ class ItemTest extends TestCase
         $domain = uniqid();
         $item = new Item();
         $this->assertSame($item, $item->category($category, $domain));
-        $this->assertAttributeSame(array(
-            array($category, $domain),
-        ), 'categories', $item);
+        $this->assertAttributeSame([
+            [$category, $domain],
+        ], 'categories', $item);
     }
 
     public function testGuid()
@@ -93,7 +93,7 @@ class ItemTest extends TestCase
     public function testEnclosure()
     {
         $url = uniqid();
-        $enclosure = array('url' => $url, 'length' => 0, 'type' => 'audio/mpeg');
+        $enclosure = ['url' => $url, 'length' => 0, 'type' => 'audio/mpeg'];
         $item = new Item();
         $this->assertSame($item, $item->enclosure($url));
         $this->assertAttributeSame($enclosure, 'enclosure', $item);
@@ -112,23 +112,24 @@ class ItemTest extends TestCase
         $now = time();
         $nowString = date(DATE_RSS, $now);
 
-        $data = array(
-            'title' => "Venice Film Festival Tries to Quit Sinking",
-            'url' => 'http://nytimes.com/2004/12/07FEST.html',
+        $data = [
+            'title'       => "Venice Film Festival Tries to Quit Sinking",
+            'url'         => 'http://nytimes.com/2004/12/07FEST.html',
             'description' => "Some of the most heated chatter at the Venice Film Festival this week was about the way that the arrival of the stars at the Palazzo del Cinema was being staged.",
-            'categories' => array(
-                array("Grateful Dead", null),
-                array("MSFT", 'http://www.fool.com/cusips'),
-            ),
-            'guid' => "http://inessential.com/2002/09/01.php#a2",
+            'categories'  => [
+                ["Grateful Dead", null],
+                ["MSFT", 'http://www.fool.com/cusips'],
+            ],
+            'guid'        => "http://inessential.com/2002/09/01.php#a2",
             'isPermalink' => true,
-            'pubDate' => $now,
-            'enclosure' => array(
-                'url' => 'http://link-to-audio-file.com/test.mp3',
+            'pubDate'     => $now,
+            'enclosure'   => [
+                'url'    => 'http://link-to-audio-file.com/test.mp3',
                 'length' => 4992,
-                'type' => 'audio/mpeg'),
-            'author' => 'Hidehito Nozawa aka Suin'
-        );
+                'type'   => 'audio/mpeg'
+            ],
+            'author'      => 'Hidehito Nozawa aka Suin'
+        ];
 
         $item = new Item();
 
@@ -137,18 +138,18 @@ class ItemTest extends TestCase
         }
 
         $expect = "
-		<item>
-			<title>{$data['title']}</title>
-			<link>{$data['url']}</link>
-			<description>{$data['description']}</description>
-			<category>{$data['categories'][0][0]}</category>
-			<category domain=\"{$data['categories'][1][1]}\">{$data['categories'][1][0]}</category>
-			<guid>{$data['guid']}</guid>
-			<pubDate>{$nowString}</pubDate>
-			<enclosure url=\"{$data['enclosure']['url']}\" type=\"{$data['enclosure']['type']}\" length=\"{$data['enclosure']['length']}\"/>
-			<author>{$data['author']}</author>
-		</item>
-		";
+        <item>
+            <title>{$data['title']}</title>
+            <link>{$data['url']}</link>
+            <description>{$data['description']}</description>
+            <category>{$data['categories'][0][0]}</category>
+            <category domain=\"{$data['categories'][1][1]}\">{$data['categories'][1][0]}</category>
+            <guid>{$data['guid']}</guid>
+            <pubDate>{$nowString}</pubDate>
+            <enclosure url=\"{$data['enclosure']['url']}\" type=\"{$data['enclosure']['type']}\" length=\"{$data['enclosure']['length']}\"/>
+            <author>{$data['author']}</author>
+        </item>
+        ";
         $this->assertXmlStringEqualsXmlString($expect, $item->asXML()->asXML());
     }
 
@@ -157,23 +158,24 @@ class ItemTest extends TestCase
         $now = time();
         $nowString = date(DATE_RSS, $now);
 
-        $data = array(
-            'title' => "Venice Film Festival Tries to Quit Sinking",
-            'url' => 'http://nytimes.com/2004/12/07FEST.html',
+        $data = [
+            'title'       => "Venice Film Festival Tries to Quit Sinking",
+            'url'         => 'http://nytimes.com/2004/12/07FEST.html',
             'description' => "Some of the most heated chatter at the Venice Film Festival this week was about the way that the arrival of the stars at the Palazzo del Cinema was being staged.",
-            'categories' => array(
-                array("Grateful Dead", null),
-                array("MSFT", 'http://www.fool.com/cusips'),
-            ),
-            'guid' => "http://inessential.com/2002/09/01.php#a2",
+            'categories'  => [
+                ["Grateful Dead", null],
+                ["MSFT", 'http://www.fool.com/cusips'],
+            ],
+            'guid'        => "http://inessential.com/2002/09/01.php#a2",
             'isPermalink' => false,
-            'pubDate' => $now,
-            'enclosure' => array(
-                'url' => 'http://link-to-audio-file.com/test.mp3',
+            'pubDate'     => $now,
+            'enclosure'   => [
+                'url'    => 'http://link-to-audio-file.com/test.mp3',
                 'length' => 4992,
-                'type' => 'audio/mpeg'),
-            'author' => 'Hidehito Nozawa aka Suin'
-        );
+                'type'   => 'audio/mpeg'
+            ],
+            'author'      => 'Hidehito Nozawa aka Suin'
+        ];
 
         $item = new Item();
 
@@ -182,28 +184,28 @@ class ItemTest extends TestCase
         }
 
         $expect = "
-		<item>
-			<title>{$data['title']}</title>
-			<link>{$data['url']}</link>
-			<description>{$data['description']}</description>
-			<category>{$data['categories'][0][0]}</category>
-			<category domain=\"{$data['categories'][1][1]}\">{$data['categories'][1][0]}</category>
-			<guid isPermaLink=\"false\">{$data['guid']}</guid>
-			<pubDate>{$nowString}</pubDate>
-			<enclosure url=\"{$data['enclosure']['url']}\" type=\"{$data['enclosure']['type']}\" length=\"{$data['enclosure']['length']}\"/>
-			<author>{$data['author']}</author>
-		</item>
-		";
+        <item>
+            <title>{$data['title']}</title>
+            <link>{$data['url']}</link>
+            <description>{$data['description']}</description>
+            <category>{$data['categories'][0][0]}</category>
+            <category domain=\"{$data['categories'][1][1]}\">{$data['categories'][1][0]}</category>
+            <guid isPermaLink=\"false\">{$data['guid']}</guid>
+            <pubDate>{$nowString}</pubDate>
+            <enclosure url=\"{$data['enclosure']['url']}\" type=\"{$data['enclosure']['type']}\" length=\"{$data['enclosure']['length']}\"/>
+            <author>{$data['author']}</author>
+        </item>
+        ";
         $this->assertXmlStringEqualsXmlString($expect, $item->asXML()->asXML());
     }
 
     public function testAsXML_test_Japanese()
     {
-        $data = array(
-            'title' => "Venice Film Festival",
-            'url' => 'http://nytimes.com/2004/12/07FEST.html',
+        $data = [
+            'title'       => "Venice Film Festival",
+            'url'         => 'http://nytimes.com/2004/12/07FEST.html',
             'description' => "Some of the most heated chatter at the Venice Film Festival this week was about the way that the arrival of the stars at the Palazzo del Cinema was being staged.",
-        );
+        ];
 
         $item = new Item();
 
@@ -212,12 +214,12 @@ class ItemTest extends TestCase
         }
 
         $expect = "
-		<item>
-			<title>{$data['title']}</title>
-			<link>{$data['url']}</link>
-			<description>{$data['description']}</description>
-		</item>
-		";
+        <item>
+            <title>{$data['title']}</title>
+            <link>{$data['url']}</link>
+            <description>{$data['description']}</description>
+        </item>
+        ";
 
         $this->assertXmlStringEqualsXmlString($expect, $item->asXML()->asXML());
     }

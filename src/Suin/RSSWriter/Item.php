@@ -18,7 +18,7 @@ class Item implements ItemInterface
     protected $description;
 
     /** @var array */
-    protected $categories = array();
+    protected $categories = [];
 
     /** @var string */
     protected $guid;
@@ -55,7 +55,7 @@ class Item implements ItemInterface
 
     public function category($name, $domain = null)
     {
-        $this->categories[] = array($name, $domain);
+        $this->categories[] = [$name, $domain];
         return $this;
     }
 
@@ -74,7 +74,7 @@ class Item implements ItemInterface
 
     public function enclosure($url, $length = 0, $type = 'audio/mpeg')
     {
-        $this->enclosure = array('url' => $url, 'length' => $length, 'type' => $type);
+        $this->enclosure = ['url' => $url, 'length' => $length, 'type' => $type];
         return $this;
     }
 

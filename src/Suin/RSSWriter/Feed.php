@@ -11,7 +11,7 @@ use DOMDocument;
 class Feed implements FeedInterface
 {
     /** @var ChannelInterface[] */
-    protected $channels = array();
+    protected $channels = [];
 
     /**
      * Add channel

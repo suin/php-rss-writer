@@ -13,7 +13,7 @@ class FeedTest extends \XoopsUnit\TestCase
         $channel = Mockery::mock($this->channelInterface);
         $feed = new Feed();
         $this->assertSame($feed, $feed->addChannel($channel));
-        $this->assertAttributeSame(array($channel), 'channels', $feed);
+        $this->assertAttributeSame([$channel], 'channels', $feed);
     }
 
     public function testRender()
@@ -28,14 +28,14 @@ class FeedTest extends \XoopsUnit\TestCase
         $channel2->expects($this->once())->method('asXML')->will($this->returnValue($xml2));
         $channel3 = $this->getMock($this->channelInterface);
         $channel3->expects($this->once())->method('asXML')->will($this->returnValue($xml3));
-        $this->reveal($feed)->attr('channels', array($channel1, $channel2, $channel3));
+        $this->reveal($feed)->attr('channels', [$channel1, $channel2, $channel3]);
         $expect = '<?xml version="1.0" encoding="UTF-8" ?>
-			<rss version="2.0">
-				<channel><title>channel1</title></channel>
-				<channel><title>channel2</title></channel>
-				<channel><title>channel3</title></channel>
-			</rss>
-		';
+            <rss version="2.0">
+                <channel><title>channel1</title></channel>
+                <channel><title>channel2</title></channel>
+                <channel><title>channel3</title></channel>
+            </rss>
+        ';
         $this->assertXmlStringEqualsXmlString($expect, $feed->render());
     }
 
@@ -51,7 +51,7 @@ class FeedTest extends \XoopsUnit\TestCase
         $channel2->expects($this->once())->method('asXML')->will($this->returnValue($xml2));
         $channel3 = $this->getMock($this->channelInterface);
         $channel3->expects($this->once())->method('asXML')->will($this->returnValue($xml3));
-        $this->reveal($feed)->attr('channels', array($channel1, $channel2, $channel3));
+        $this->reveal($feed)->attr('channels', [$channel1, $channel2, $channel3]);
         $expect = <<< 'XML'
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
@@ -83,14 +83,14 @@ XML;
         $channel2->expects($this->once())->method('asXML')->will($this->returnValue($xml2));
         $channel3 = $this->getMock($this->channelInterface);
         $channel3->expects($this->once())->method('asXML')->will($this->returnValue($xml3));
-        $this->reveal($feed)->attr('channels', array($channel1, $channel2, $channel3));
+        $this->reveal($feed)->attr('channels', [$channel1, $channel2, $channel3]);
         $expect = '<?xml version="1.0" encoding="UTF-8" ?>
-			<rss version="2.0">
-				<channel><title>channel1</title></channel>
-				<channel><title>channel2</title></channel>
-				<channel><title>channel3</title></channel>
-			</rss>
-		';
+            <rss version="2.0">
+                <channel><title>channel1</title></channel>
+                <channel><title>channel2</title></channel>
+                <channel><title>channel3</title></channel>
+            </rss>
+        ';
         $this->assertXmlStringEqualsXmlString($expect, $feed);
     }
 }
