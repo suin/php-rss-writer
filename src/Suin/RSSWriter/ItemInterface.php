@@ -76,6 +76,14 @@ interface ItemInterface
     public function appendTo(ChannelInterface $channel);
 
     /**
+     * @param string $tagName
+     * @param null $content
+     * @param array $options
+     * @return $this
+     */
+    public function customElement($tagName, $content = null, $options = array());
+
+    /**
      * Return XML object
      * @return \Suin\RSSWriter\SimpleXMLElement
      */

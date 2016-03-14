@@ -35,6 +35,9 @@ class Item implements ItemInterface
     /** @var string */
     protected $author;
 
+    /** @var array */
+    protected $customElements = [];
+
     public function title($title)
     {
         $this->title = $title;
@@ -90,6 +93,47 @@ class Item implements ItemInterface
         return $this;
     }
 
+    public function customElement($tagName, $content = null, $options = array())
+    {
+        $this->customElements[] = array(
+            'tagName' => $tagName,
+            'content' => $content,
+            'options' => $options,
+        );
+
+        return $this;
+    }
+
+    /**
+     * @param SimpleXMLElement $xml
+     * @param array $item
+     */
+    protected function transformCustomElement(SimpleXMLElement $xml, $item)
+    {
+        $options = $item['options'];
+
+        $namespace = null;
+        if (array_key_exists('namespace', $options)) {
+            $namespace = $options['namespace'];
+        }
+
+        if (array_key_exists('cdata', $options) && $options['cdata'] === true) {
+            // SimpleXMLElement does not support CDATA transformation
+            $element = $xml->addChild($item['tagName'], null, $namespace);
+            $element = dom_import_simplexml($element);
+            $elementOwner = $element->ownerDocument;
+            $element->appendChild($elementOwner->createCDATASection($item['content']));
+        } else {
+            $element = $xml->addChild($item['tagName'], $item['content'], $namespace);
+        }
+
+        if (array_key_exists('attributes', $options)) {
+            foreach ($options['attributes'] as $key => $value) {
+                $element->addAttribute($key, $value);
+            }
+        }
+    }
+
     public function asXML()
     {
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item></item>', LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_ERR_FATAL);
@@ -129,6 +173,10 @@ class Item implements ItemInterface
 
         if (!empty($this->author)) {
             $xml->addChild('author', $this->author);
+        }
+
+        foreach($this->customElements as $customElement) {
+            $this->transformCustomElement($xml, $customElement);
         }
 
         return $xml;
