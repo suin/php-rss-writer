@@ -33,7 +33,8 @@ $channel
 $item = new Item();
 $item
     ->title('Blog Entry Title')
-    ->description('<div>Blog body</div>')
+    ->description('Blog body')
+    ->contentEncoded('<div>Blog body</div>')
     ->url('http://blog.example.com/2012/08/21/blog-entry/')
     ->author('Hidehito Nozawa')
     ->pubDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
@@ -56,22 +57,23 @@ Output:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
   <channel>
     <title>Channel Title</title>
     <link>http://blog.example.com</link>
     <description>Channel Description</description>
     <language>en-US</language>
     <copyright>Copyright 2012, Foo Bar</copyright>
-    <pubDate>Tue, 21 Aug 2012 19:50:37 +0900</pubDate>
-    <lastBuildDate>Tue, 21 Aug 2012 19:50:37 +0900</lastBuildDate>
+    <pubDate>Tue, 21 Aug 2012 10:50:37 +0000</pubDate>
+    <lastBuildDate>Tue, 21 Aug 2012 10:50:37 +0000</lastBuildDate>
     <ttl>60</ttl>
-    <item>
+    <item xmlns:default="http://purl.org/rss/1.0/modules/content/">
       <title>Blog Entry Title</title>
       <link>http://blog.example.com/2012/08/21/blog-entry/</link>
-      <description>&lt;div&gt;Blog body&lt;/div&gt;</description>
+      <description>Blog body</description>
+      <content:encoded xmlns="http://purl.org/rss/1.0/modules/content/"><![CDATA[<div>Blog body</div>]]></content:encoded>
       <guid>http://blog.example.com/2012/08/21/blog-entry/</guid>
-      <pubDate>Tue, 21 Aug 2012 19:50:37 +0900</pubDate>
+      <pubDate>Tue, 21 Aug 2012 10:50:37 +0000</pubDate>
       <author>Hidehito Nozawa</author>
     </item>
     <item>

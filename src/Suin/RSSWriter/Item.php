@@ -17,6 +17,9 @@ class Item implements ItemInterface
     /** @var string */
     protected $description;
 
+    /** @var string */
+    protected $contentEncoded;
+
     /** @var array */
     protected $categories = [];
 
@@ -50,6 +53,12 @@ class Item implements ItemInterface
     public function description($description)
     {
         $this->description = $description;
+        return $this;
+    }
+
+    public function contentEncoded($content)
+    {
+        $this->contentEncoded = $content;
         return $this;
     }
 
@@ -96,6 +105,14 @@ class Item implements ItemInterface
         $xml->addChild('title', $this->title);
         $xml->addChild('link', $this->url);
         $xml->addChild('description', $this->description);
+
+        if ($this->contentEncoded) {
+            // SimpleXMLElement does not support CDATA transformation
+            $element = $xml->addChild('encoded', null, 'http://purl.org/rss/1.0/modules/content/');
+            $element = dom_import_simplexml($element);
+            $elementOwner = $element->ownerDocument;
+            $element->appendChild($elementOwner->createCDATASection($this->contentEncoded));
+        }
 
         foreach ($this->categories as $category) {
             $element = $xml->addChild('category', $category[0]);

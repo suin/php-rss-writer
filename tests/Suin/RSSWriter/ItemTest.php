@@ -32,6 +32,34 @@ class ItemTest extends TestCase
         $this->assertAttributeSame($description, 'description', $item);
     }
 
+    public function testContentEncoded()
+    {
+        $item = new Item();
+        $this->assertSame($item, $item->contentEncoded('<div>contents</div>'));
+        $this->assertAttributeSame('<div>contents</div>', 'contentEncoded', $item);
+
+        $feed = new Feed();
+        $channel = new Channel();
+        $item->appendTo($channel);
+        $channel->appendTo($feed);
+
+        $expected = '<?xml version="1.0" encoding="UTF-8"?>
+        <rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+          <channel>
+            <title/>
+            <link/>
+            <description/>
+            <item xmlns:default="http://purl.org/rss/1.0/modules/content/">
+              <title/>
+              <link/>
+              <description/>
+              <content:encoded xmlns="http://purl.org/rss/1.0/modules/content/"><![CDATA[<div>contents</div>]]></content:encoded>
+            </item>
+          </channel>
+        </rss>';
+        $this->assertXmlStringEqualsXmlString($expected, $feed->render());
+    }
+
     public function testCategory()
     {
         $category = uniqid();

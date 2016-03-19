@@ -28,7 +28,8 @@ $channel
 $item = new Item();
 $item
     ->title('Blog Entry Title')
-    ->description('<div>Blog body</div>')
+    ->description('Blog body')
+    ->contentEncoded('<div>Blog body</div>')
     ->url('http://blog.example.com/2012/08/21/blog-entry/')
     ->author('Hidehito Nozawa')
     ->pubDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
