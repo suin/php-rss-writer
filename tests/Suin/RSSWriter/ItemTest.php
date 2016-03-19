@@ -279,4 +279,95 @@ class ItemTest extends TestCase
 
         $this->assertSame($expect, $item->asXML()->asXML());
     }
+
+    public function testCustomElement()
+    {
+        $item = new Item();
+        $this->assertSame($item, $item->customElement('testNode', 'testValue'));
+    }
+
+    public function testTransformCustomElement()
+    {
+        $data = [
+            'title'       => "Venice Film Festival",
+            'url'         => 'http://nytimes.com/2004/12/07FEST.html',
+            'description' => "Some of the most heated chatter at the Venice Film Festival this week was about the way that the arrival of the stars at the Palazzo del Cinema was being staged.",
+        ];
+
+        $item = new Item();
+
+        foreach ($data as $key => $value) {
+            $this->reveal($item)->attr($key, $value);
+        }
+        $item->customElement('testNode', 'testValue');
+
+        $expect = "
+        <item>
+            <title>{$data['title']}</title>
+            <link>{$data['url']}</link>
+            <description>{$data['description']}</description>
+            <testNode>testValue</testNode>
+        </item>
+        ";
+
+        $this->assertXmlStringEqualsXmlString($expect, $item->asXML()->asXML());
+    }
+
+    public function testTransformCustomElement_with_namespace()
+    {
+        $data = [
+            'title'       => "Venice Film Festival",
+            'url'         => 'http://nytimes.com/2004/12/07FEST.html',
+            'description' => "Some of the most heated chatter at the Venice Film Festival this week was about the way that the arrival of the stars at the Palazzo del Cinema was being staged.",
+        ];
+
+        $item = new Item();
+
+        foreach ($data as $key => $value) {
+            $this->reveal($item)->attr($key, $value);
+        }
+        $item->customElement('content:encoded', 'testValue', array(
+            'namespace' => 'http://purl.org/rss/1.0/modules/content/',
+        ));
+
+        $expect = "
+        <item>
+            <title>{$data['title']}</title>
+            <link>{$data['url']}</link>
+            <description>{$data['description']}</description>
+            <content:encoded xmlns:content=\"http://purl.org/rss/1.0/modules/content/\">testValue</content:encoded>
+        </item>
+        ";
+
+        $this->assertXmlStringEqualsXmlString($expect, $item->asXML()->asXML());
+    }
+
+    public function testTransformCustomElement_with_cdata()
+    {
+        $data = [
+            'title'       => "Venice Film Festival",
+            'url'         => 'http://nytimes.com/2004/12/07FEST.html',
+            'description' => "Some of the most heated chatter at the Venice Film Festival this week was about the way that the arrival of the stars at the Palazzo del Cinema was being staged.",
+        ];
+
+        $item = new Item();
+
+        foreach ($data as $key => $value) {
+            $this->reveal($item)->attr($key, $value);
+        }
+        $item->customElement('content', 'testValue', array(
+            'cdata' => true
+        ));
+
+        $expect = "
+        <item>
+            <title>{$data['title']}</title>
+            <link>{$data['url']}</link>
+            <description>{$data['description']}</description>
+            <content><![CDATA[testValue]]></content>
+        </item>
+        ";
+
+        $this->assertXmlStringEqualsXmlString($expect, $item->asXML()->asXML());
+    }
 }
