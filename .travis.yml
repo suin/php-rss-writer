@@ -15,11 +15,11 @@ matrix:
   allow_failures:
     - php: master
 
-before_script:
-  - cd tests
-  - composer install -n
+install:
+  - composer install --prefer-dist
 
-script: phpunit --coverage-text --configuration phpunit.xml.dist
+script:
+  - vendor/bin/phpunit --coverage-text --configuration tests/phpunit.xml.dist
 
 cache:
   directories:
