@@ -1,8 +1,0 @@
-{
-  "require": {
-    "php": ">=5.4.0",
-    "EHER/PHPUnit": ">=1.6",
-    "suin/xoopsunit": ">=1.2",
-    "mockery/mockery": ">=0.7.2"
-  }
-}
