@@ -22,6 +22,7 @@ $channel
     ->pubDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
     ->lastBuildDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
     ->ttl(60)
+    ->pubsubhubbub('http://example.com/feed.xml', 'http://pubsubhubbub.appspot.com') // This is optional. Specify PubSubHubbub discovery if you want.
     ->appendTo($feed);
 
 // Blog item

@@ -27,6 +27,7 @@ $channel
     ->pubDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
     ->lastBuildDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
     ->ttl(60)
+    ->pubsubhubbub('http://example.com/feed.xml', 'http://pubsubhubbub.appspot.com') // This is optional. Specify PubSubHubbub discovery if you want.
     ->appendTo($feed);
 
 // Blog item
@@ -58,7 +59,7 @@ Output:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Channel Title</title>
     <link>http://blog.example.com</link>
@@ -68,11 +69,13 @@ Output:
     <pubDate>Tue, 21 Aug 2012 10:50:37 +0000</pubDate>
     <lastBuildDate>Tue, 21 Aug 2012 10:50:37 +0000</lastBuildDate>
     <ttl>60</ttl>
-    <item xmlns:default="http://purl.org/rss/1.0/modules/content/">
+    <atom:link rel="self" href="http://example.com/feed.xml" type="application/rss+xml"/>
+    <atom:link rel="hub" href="http://pubsubhubbub.appspot.com"/>
+    <item>
       <title><![CDATA[Blog Entry Title]]></title>
       <link>http://blog.example.com/2012/08/21/blog-entry/</link>
       <description><![CDATA[<div>Blog body</div>]]></description>
-      <content:encoded xmlns="http://purl.org/rss/1.0/modules/content/"><![CDATA[<div>Blog body</div>]]></content:encoded>
+      <content:encoded><![CDATA[<div>Blog body</div>]]></content:encoded>
       <guid>http://blog.example.com/2012/08/21/blog-entry/</guid>
       <pubDate>Tue, 21 Aug 2012 10:50:37 +0000</pubDate>
       <author>Hidehito Nozawa</author>

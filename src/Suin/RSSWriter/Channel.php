@@ -32,6 +32,9 @@ class Channel implements ChannelInterface
     /** @var int */
     protected $ttl;
 
+    /** @var string[] */
+    protected $pubsubhubbub;
+
     /** @var ItemInterface[] */
     protected $items = [];
 
@@ -130,6 +133,21 @@ class Channel implements ChannelInterface
     }
 
     /**
+     * Enable PubSubHubbub discovery
+     * @param string $feedUrl
+     * @param string $hubUrl
+     * @return $this
+     */
+    public function pubsubhubbub($feedUrl, $hubUrl)
+    {
+        $this->pubsubhubbub = [
+            'feedUrl' => $feedUrl,
+            'hubUrl' => $hubUrl,
+        ];
+        return $this;
+    }
+
+    /**
      * Add item object
      * @param ItemInterface $item
      * @return $this
@@ -180,6 +198,17 @@ class Channel implements ChannelInterface
 
         if ($this->ttl !== null) {
             $xml->addChild('ttl', $this->ttl);
+        }
+
+        if ($this->pubsubhubbub !== null) {
+            $feedUrl = $xml->addChild('xmlns:atom:link');
+            $feedUrl->addAttribute('rel', 'self');
+            $feedUrl->addAttribute('href', $this->pubsubhubbub['feedUrl']);
+            $feedUrl->addAttribute('type', 'application/rss+xml');
+            
+            $hubUrl = $xml->addChild('xmlns:atom:link');
+            $hubUrl->addAttribute('rel', 'hub');
+            $hubUrl->addAttribute('href', $this->pubsubhubbub['hubUrl']);
         }
 
         foreach ($this->items as $item) {

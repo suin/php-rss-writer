@@ -126,7 +126,7 @@ class Item implements ItemInterface
         }
 
         if ($this->contentEncoded) {
-            $xml->addCdataChild('encoded', $this->contentEncoded, 'http://purl.org/rss/1.0/modules/content/');
+            $xml->addCdataChild('xmlns:content:encoded', $this->contentEncoded);
         }
 
         foreach ($this->categories as $category) {

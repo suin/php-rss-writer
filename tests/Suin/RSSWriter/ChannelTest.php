@@ -71,6 +71,15 @@ class ChannelTest extends \XoopsUnit\TestCase
         $this->assertAttributeSame($ttl, 'ttl', $channel);
     }
 
+    public function testPubsubhubbub()
+    {
+        $channel = new Channel();
+        $channel->pubsubhubbub('http://example.com/feed.xml', 'http://pubsubhubbub.appspot.com');
+        $xml = $channel->asXML()->asXML();
+        $this->assertContains('<atom:link rel="self" href="http://example.com/feed.xml" type="application/rss+xml"/>', $xml);
+        $this->assertContains('<atom:link rel="hub" href="http://pubsubhubbub.appspot.com"/>', $xml);
+    }
+
     public function testAddItem()
     {
         $item = $this->getMock($this->itemInterface);

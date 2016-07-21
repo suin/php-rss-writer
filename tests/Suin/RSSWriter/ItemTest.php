@@ -44,16 +44,16 @@ class ItemTest extends TestCase
         $channel->appendTo($feed);
 
         $expected = '<?xml version="1.0" encoding="UTF-8"?>
-        <rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+        <rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
           <channel>
             <title/>
             <link/>
             <description/>
-            <item xmlns:default="http://purl.org/rss/1.0/modules/content/">
+            <item>
               <title/>
               <link/>
               <description/>
-              <content:encoded xmlns="http://purl.org/rss/1.0/modules/content/"><![CDATA[<div>contents</div>]]></content:encoded>
+              <content:encoded><![CDATA[<div>contents</div>]]></content:encoded>
             </item>
           </channel>
         </rss>';

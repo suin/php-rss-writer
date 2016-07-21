@@ -30,7 +30,7 @@ class FeedTest extends \XoopsUnit\TestCase
         $channel3->expects($this->once())->method('asXML')->will($this->returnValue($xml3));
         $this->reveal($feed)->attr('channels', [$channel1, $channel2, $channel3]);
         $expect = '<?xml version="1.0" encoding="UTF-8" ?>
-            <rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+            <rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
                 <channel><title>channel1</title></channel>
                 <channel><title>channel2</title></channel>
                 <channel><title>channel3</title></channel>
@@ -54,7 +54,7 @@ class FeedTest extends \XoopsUnit\TestCase
         $this->reveal($feed)->attr('channels', [$channel1, $channel2, $channel3]);
         $expect = <<< 'XML'
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>日本語1</title>
   </channel>
@@ -85,7 +85,7 @@ XML;
         $channel3->expects($this->once())->method('asXML')->will($this->returnValue($xml3));
         $this->reveal($feed)->attr('channels', [$channel1, $channel2, $channel3]);
         $expect = '<?xml version="1.0" encoding="UTF-8" ?>
-            <rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+            <rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
                 <channel><title>channel1</title></channel>
                 <channel><title>channel2</title></channel>
                 <channel><title>channel3</title></channel>
