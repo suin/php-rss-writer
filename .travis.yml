@@ -19,9 +19,8 @@ install:
   - composer install --prefer-dist
 
 script:
-  - vendor/bin/phpunit --coverage-text --configuration tests/phpunit.xml.dist
+  - vendor/bin/phpunit --coverage-text
 
 cache:
   directories:
-    - tests/vendor
     - $HOME/.composer/cache

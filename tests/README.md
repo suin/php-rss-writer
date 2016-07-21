@@ -19,7 +19,7 @@ $ composer.phar install
 Run phpunit:
 
 ```sh
-$ ./phpunit
+$ vendor/bin/phpunit phpunit.xml.dist
 ```
 
 ## View Reports
