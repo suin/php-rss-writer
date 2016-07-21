@@ -135,6 +135,34 @@ class ItemTest extends TestCase
         $this->assertAttributeSame($author, 'author', $item);
     }
 
+    public function testPreferCdata()
+    {
+        $item = new Item();
+        $item->title('<h1>title</h1>');
+        $item->description('<p>description</p>');
+
+        // By default, prefer no CDATA on title and description
+        $actualXml = $item->asXML()->asXML();
+        $this->assertContains('<title>&lt;h1&gt;title&lt;/h1&gt;</title>', $actualXml);
+        $this->assertContains('<description>&lt;p&gt;description&lt;/p&gt;</description>', $actualXml);
+
+        // Once prefer-cdata is enabled, title and description is wrapped by CDATA
+        $item->preferCdata(true);
+        $actualXml = $item->asXML()->asXML();
+        $this->assertContains('<title><![CDATA[<h1>title</h1>]]></title>', $actualXml);
+        $this->assertContains('<description><![CDATA[<p>description</p>]]></description>', $actualXml);
+
+        // Of course, prefer-cdata can be disabled again
+        $item->preferCdata(false);
+        $actualXml = $item->asXML()->asXML();
+        $this->assertContains('<title>&lt;h1&gt;title&lt;/h1&gt;</title>', $actualXml);
+        $this->assertContains('<description>&lt;p&gt;description&lt;/p&gt;</description>', $actualXml);
+
+        // And like other APIs `preferCdata` is also fluent interface
+        $obj = $item->preferCdata(true);
+        $this->assertSame($obj, $item);
+    }
+
     public function testAsXML()
     {
         $now = time();

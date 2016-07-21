@@ -16,4 +16,12 @@ class SimpleXMLElement extends \SimpleXMLElement
 
         return parent::addChild($name, $value, $namespace);
     }
+
+    public function addCdataChild($name, $value = null, $namespace = null)
+    {
+        $element = $this->addChild($name, null, $namespace);
+        $element = dom_import_simplexml($element);
+        $elementOwner = $element->ownerDocument;
+        $element->appendChild($elementOwner->createCDATASection($value));
+    }
 }

@@ -33,12 +33,13 @@ $channel
 $item = new Item();
 $item
     ->title('Blog Entry Title')
-    ->description('Blog body')
+    ->description('<div>Blog body</div>')
     ->contentEncoded('<div>Blog body</div>')
     ->url('http://blog.example.com/2012/08/21/blog-entry/')
     ->author('Hidehito Nozawa')
     ->pubDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
     ->guid('http://blog.example.com/2012/08/21/blog-entry/', true)
+    ->preferCdata(true) // By this, title and description become CDATA wrapped HTML.
     ->appendTo($channel);
 
 // Podcast item
@@ -68,9 +69,9 @@ Output:
     <lastBuildDate>Tue, 21 Aug 2012 10:50:37 +0000</lastBuildDate>
     <ttl>60</ttl>
     <item xmlns:default="http://purl.org/rss/1.0/modules/content/">
-      <title>Blog Entry Title</title>
+      <title><![CDATA[Blog Entry Title]]></title>
       <link>http://blog.example.com/2012/08/21/blog-entry/</link>
-      <description>Blog body</description>
+      <description><![CDATA[<div>Blog body</div>]]></description>
       <content:encoded xmlns="http://purl.org/rss/1.0/modules/content/"><![CDATA[<div>Blog body</div>]]></content:encoded>
       <guid>http://blog.example.com/2012/08/21/blog-entry/</guid>
       <pubDate>Tue, 21 Aug 2012 10:50:37 +0000</pubDate>

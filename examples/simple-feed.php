@@ -28,12 +28,13 @@ $channel
 $item = new Item();
 $item
     ->title('Blog Entry Title')
-    ->description('Blog body')
+    ->description('<div>Blog body</div>')
     ->contentEncoded('<div>Blog body</div>')
     ->url('http://blog.example.com/2012/08/21/blog-entry/')
     ->author('Hidehito Nozawa')
     ->pubDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
     ->guid('http://blog.example.com/2012/08/21/blog-entry/', true)
+    ->preferCdata(true) // By this, title and description become CDATA wrapped HTML.
     ->appendTo($channel);
 
 // Podcast item
