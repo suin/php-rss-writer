@@ -129,7 +129,13 @@ If you want to know APIs, please see [`FeedInterface`](src/Suin/RSSWriter/FeedIn
 ## How to Test
 
 ```sh
-$ ./phpunit
+$ vendor/bin/phpunit
+```
+
+## Test through PHP 5.4 ~ PHP 7.0
+
+```console
+$ docker-compose up
 ```
 
 ## License
