@@ -184,7 +184,7 @@ class ItemTest extends TestCase
                 'length' => 4992,
                 'type'   => 'audio/mpeg'
             ],
-            'author'      => 'Hidehito Nozawa aka Suin'
+            'author'      => 'John Smith'
         ];
 
         $item = new Item();
@@ -230,7 +230,7 @@ class ItemTest extends TestCase
                 'length' => 4992,
                 'type'   => 'audio/mpeg'
             ],
-            'author'      => 'Hidehito Nozawa aka Suin'
+            'author'      => 'John Smith'
         ];
 
         $item = new Item();

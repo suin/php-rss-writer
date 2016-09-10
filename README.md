@@ -5,7 +5,7 @@
 This library can also be used to publish Podcasts.
 
 [![Latest Stable Version](https://poser.pugx.org/suin/php-rss-writer/v/stable)](https://packagist.org/packages/suin/php-rss-writer)
-[![Total Downloads](https://poser.pugx.org/suin/php-rss-writer/downloads)](https://packagist.org/packages/suin/php-rss-writer) 
+[![Total Downloads](https://poser.pugx.org/suin/php-rss-writer/downloads)](https://packagist.org/packages/suin/php-rss-writer)
 [![Daily Downloads](https://poser.pugx.org/suin/php-rss-writer/d/daily)](https://packagist.org/packages/suin/php-rss-writer)
 [![License](https://poser.pugx.org/suin/php-rss-writer/license)](https://packagist.org/packages/suin/php-rss-writer)
 [![Build Status](https://travis-ci.org/suin/php-rss-writer.svg?branch=master)](https://travis-ci.org/suin/php-rss-writer)
@@ -37,7 +37,7 @@ $item
     ->description('<div>Blog body</div>')
     ->contentEncoded('<div>Blog body</div>')
     ->url('http://blog.example.com/2012/08/21/blog-entry/')
-    ->author('Hidehito Nozawa')
+    ->author('John Smith')
     ->pubDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
     ->guid('http://blog.example.com/2012/08/21/blog-entry/', true)
     ->preferCdata(true) // By this, title and description become CDATA wrapped HTML.
@@ -78,7 +78,7 @@ Output:
       <content:encoded><![CDATA[<div>Blog body</div>]]></content:encoded>
       <guid>http://blog.example.com/2012/08/21/blog-entry/</guid>
       <pubDate>Tue, 21 Aug 2012 10:50:37 +0000</pubDate>
-      <author>Hidehito Nozawa</author>
+      <author>John Smith</author>
     </item>
     <item>
       <title>Some Podcast Entry</title>
