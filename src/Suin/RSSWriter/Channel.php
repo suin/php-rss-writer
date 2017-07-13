@@ -14,6 +14,9 @@ class Channel implements ChannelInterface
     /** @var string */
     protected $url;
 
+    /** @var feedUrl */
+    protected $feedUrl;
+
     /** @var string */
     protected $description;
 
@@ -57,6 +60,17 @@ class Channel implements ChannelInterface
     public function url($url)
     {
         $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * Set URL of this feed
+     * @param string $url
+     * @return $this;
+     */
+    public function feedUrl($url)
+    {
+        $this->feedUrl = $url;
         return $this;
     }
 
@@ -179,6 +193,13 @@ class Channel implements ChannelInterface
         $xml->addChild('title', $this->title);
         $xml->addChild('link', $this->url);
         $xml->addChild('description', $this->description);
+
+        if($this->feedUrl !== null) {
+            $link = $xml->addChild('atom:link', '', "http://www.w3.org/2005/Atom");
+            $link->addAttribute('href',$this->feedUrl);
+            $link->addAttribute('type','application/rss+xml');
+            $link->addAttribute('rel','self');
+        }
 
         if ($this->language !== null) {
             $xml->addChild('language', $this->language);

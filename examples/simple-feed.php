@@ -17,6 +17,7 @@ $channel
     ->title('Channel Title')
     ->description('Channel Description')
     ->url('http://blog.example.com')
+    ->feedUrl('http://blog.example.com/rss')
     ->language('en-US')
     ->copyright('Copyright 2012, Foo Bar')
     ->pubDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
