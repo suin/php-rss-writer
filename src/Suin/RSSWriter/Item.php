@@ -38,6 +38,9 @@ class Item implements ItemInterface
     /** @var string */
     protected $author;
 
+    /** @var string */
+    protected $creator;
+
     protected $preferCdata = false;
 
     public function title($title)
@@ -92,6 +95,12 @@ class Item implements ItemInterface
     public function author($author)
     {
         $this->author = $author;
+        return $this;
+    }
+
+    public function creator($creator)
+    {
+        $this->creator = $creator;
         return $this;
     }
 
@@ -161,6 +170,10 @@ class Item implements ItemInterface
 
         if (!empty($this->author)) {
             $xml->addChild('author', $this->author);
+        }
+
+        if (!empty($this->creator)) {
+            $xml->addChild('dc:creator', $this->creator,"http://purl.org/dc/elements/1.1/");
         }
 
         return $xml;
