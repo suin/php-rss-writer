@@ -13,7 +13,7 @@ class Feed implements FeedInterface
     /** @var ChannelInterface[] */
     protected $channels = [];
 
-    protected $feed_styles = [];
+    protected $feedStyles = [];
 
     /**
      * Add Style sheet
@@ -23,8 +23,7 @@ class Feed implements FeedInterface
      */
     public function addStyle($style_url, $media = 'screen'){
       if( !empty($style_url) ){
-	debug("Adding Style: $style_url");
-	$this->feed_styles[] = [ $style_url, $media ];
+	$this->feedStyles[] = [ $style_url, $media ];
       }
 
       return $this;
@@ -54,24 +53,20 @@ class Feed implements FeedInterface
 
       foreach ($this->channels as $channel) {
             $toDom = dom_import_simplexml($xml);
-	    debug("toDom: " . print_r($toDom, true) );
             $fromDom = dom_import_simplexml($channel->asXML());
             $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
         }
 
         $dom = new DOMDocument('1.0', 'UTF-8');
 
-	if( count($this->feed_styles) > 0 ){
-	  foreach( $this->feed_styles as $info ){
+	if( count($this->feedStyles) > 0 ){
+	  foreach( $this->feedStyles as $info ){
 	    $url = $info[0];
 	    $media = $info[1];
-	    debug("Feed_Style: " . $url);
 	    $xslt = $dom->createProcessingInstruction('xml-stylesheet', "type=\"text/css\" media=\"{$media}\" href=\"{$url}\" ");
 	    $dom->appendChild($xslt);
 	  }
 	}
-
-	debug("XML: " . print_r(dom_import_simplexml($xml), true) );
 
         $dom->appendChild($dom->importNode(dom_import_simplexml($xml), true));
         $dom->formatOutput = true;
