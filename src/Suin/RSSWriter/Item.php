@@ -126,7 +126,9 @@ class Item implements ItemInterface
             $xml->addChild('title', $this->title);
         }
 
-        $xml->addChild('link', $this->url);
+        if ($this->url) {
+            $xml->addChild('link', $this->url);
+        }
 
         if ($this->preferCdata) {
             $xml->addCdataChild('description', $this->description);

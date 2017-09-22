@@ -51,7 +51,6 @@ class ItemTest extends TestCase
             <description/>
             <item>
               <title/>
-              <link/>
               <description/>
               <content:encoded><![CDATA[<div>contents</div>]]></content:encoded>
             </item>
