@@ -135,6 +135,16 @@ class ItemTest extends TestCase
         $this->assertAttributeSame($author, 'author', $item);
     }
 
+    public function testCreator()
+    {
+        $creator = uniqid();
+        $item = new Item();
+        $this->assertSame($item, $item->creator($creator));
+
+        $creatorXml = '<dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">' . $creator . '</dc:creator>';
+        $this->assertContains($creatorXml, $item->asXML()->asXML());
+    }
+
     public function testPreferCdata()
     {
         $item = new Item();

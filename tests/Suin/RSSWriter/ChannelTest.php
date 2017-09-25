@@ -23,6 +23,14 @@ class ChannelTest extends \XoopsUnit\TestCase
         $this->assertAttributeSame($url, 'url', $channel);
     }
 
+    public function testFeedUrl()
+    {
+        $channel = new Channel();
+        $this->assertSame($channel, $channel->feedUrl('http://example.com/feed.xml'));
+        $feedUrlXml = '<atom:link xmlns:atom="http://www.w3.org/2005/Atom" href="http://example.com/feed.xml" type="application/rss+xml" rel="self"/>';
+        $this->assertContains($feedUrlXml, $channel->asXML()->asXML());
+    }
+
     public function testDescription()
     {
         $description = uniqid();
