@@ -120,18 +120,25 @@ class Item implements ItemInterface
     {
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item></item>', LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_ERR_FATAL);
 
-        if ($this->preferCdata) {
-            $xml->addCdataChild('title', $this->title);
-        } else {
-            $xml->addChild('title', $this->title);
+        if ($this->title) {
+            if ($this->preferCdata) {
+                $xml->addCdataChild('title', $this->title);
+            } else {
+                $xml->addChild('title', $this->title);
+            }
         }
 
-        $xml->addChild('link', $this->url);
+        if ($this->url) {
+            $xml->addChild('link', $this->url);
+        }
 
-        if ($this->preferCdata) {
-            $xml->addCdataChild('description', $this->description);
-        } else {
-            $xml->addChild('description', $this->description);
+        // At least one of <title> or <description> must be present
+        if ($this->description || ! $this->title) {
+            if ($this->preferCdata) {
+                $xml->addCdataChild('description', $this->description);
+            } else {
+                $xml->addChild('description', $this->description);
+            }
         }
 
         if ($this->contentEncoded) {
