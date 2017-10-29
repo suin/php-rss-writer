@@ -73,6 +73,19 @@ class Item implements ItemInterface
         return $this;
     }
 
+    public function categories(array $categories) 
+    {
+        foreach ($categories as $cat) {
+            $domain = null;
+            if (is_array($cat) && !empty($cat)) {
+                $domain = isset($cat[1]) ? $cat[1] : null;
+                $cat = $cat[0];
+            }
+            $this->category($cat, $domain);
+        }
+        return $this;
+    }
+
     public function guid($guid, $isPermalink = false)
     {
         $this->guid = $guid;
