@@ -79,6 +79,23 @@ class ItemTest extends TestCase
         ], 'categories', $item);
     }
 
+    public function testCategories()
+    {
+        $categories = ['a', 'b', ['c', 'domain'], 'd', ['e']];
+        $stored_categories = [
+            ['a', null],
+            ['b', null],
+            ['c', 'domain'],
+            ['d', null],
+            ['e', null],
+        ];
+        $item = new Item();
+        $item->categories($categories);
+        $this->assertAttributeSame([
+            $stored_categories,
+        ], 'categories', $item);
+    }
+
     public function testGuid()
     {
         $guid = uniqid();
