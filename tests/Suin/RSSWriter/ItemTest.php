@@ -91,9 +91,7 @@ class ItemTest extends TestCase
         ];
         $item = new Item();
         $item->categories($categories);
-        $this->assertAttributeSame([
-            $stored_categories,
-        ], 'categories', $item);
+        $this->assertAttributeSame($stored_categories, 'categories', $item);
     }
 
     public function testGuid()
