@@ -14,7 +14,7 @@ class Channel implements ChannelInterface
     /** @var string */
     protected $url;
 
-    /** @var feedUrl */
+    /** @var string */
     protected $feedUrl;
 
     /** @var string */
@@ -226,7 +226,7 @@ class Channel implements ChannelInterface
             $feedUrl->addAttribute('rel', 'self');
             $feedUrl->addAttribute('href', $this->pubsubhubbub['feedUrl']);
             $feedUrl->addAttribute('type', 'application/rss+xml');
-            
+
             $hubUrl = $xml->addChild('xmlns:atom:link');
             $hubUrl->addAttribute('rel', 'hub');
             $hubUrl->addAttribute('href', $this->pubsubhubbub['hubUrl']);
