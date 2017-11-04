@@ -126,7 +126,7 @@ class ItemTest extends TestCase
     public function testAppendTo()
     {
         $item = new Item();
-        $channel = $this->getMock($this->channelInterface);
+        $channel = $this->createMock($this->channelInterface);
         $channel->expects($this->once())->method('addItem')->with($item);
         $this->assertSame($item, $item->appendTo($channel));
     }

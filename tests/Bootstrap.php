@@ -10,3 +10,5 @@ spl_autoload_register(function ($c) {
 set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__DIR__) . '/src');
 
 date_default_timezone_set('UTC');
+
+class_exists('PHPUnit_Framework_TestCase') || class_alias('PHPUnit\Framework\TestCase', 'PHPUnit_Framework_TestCase');

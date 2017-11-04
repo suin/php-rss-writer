@@ -90,7 +90,7 @@ class ChannelTest extends \XoopsUnit\TestCase
 
     public function testAddItem()
     {
-        $item = $this->getMock($this->itemInterface);
+        $item = $this->createMock($this->itemInterface);
         $channel = new Channel();
         $this->assertSame($channel, $channel->addItem($item));
         $this->assertAttributeSame([$item], 'items', $channel);
@@ -99,7 +99,7 @@ class ChannelTest extends \XoopsUnit\TestCase
     public function testAppendTo()
     {
         $channel = new Channel();
-        $feed = $this->getMock($this->feedInterface);
+        $feed = $this->createMock($this->feedInterface);
         $feed->expects($this->once())->method('addChannel')->with($channel);
         $this->assertSame($channel, $channel->appendTo($feed));
     }
@@ -232,11 +232,11 @@ class ChannelTest extends \XoopsUnit\TestCase
         $xml2 = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item><title>item2</title></item>');
         $xml3 = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item><title>item3</title></item>');
 
-        $item1 = $this->getMock($this->itemInterface);
+        $item1 = $this->createMock($this->itemInterface);
         $item1->expects($this->once())->method('asXML')->will($this->returnValue($xml1));
-        $item2 = $this->getMock($this->itemInterface);
+        $item2 = $this->createMock($this->itemInterface);
         $item2->expects($this->once())->method('asXML')->will($this->returnValue($xml2));
-        $item3 = $this->getMock($this->itemInterface);
+        $item3 = $this->createMock($this->itemInterface);
         $item3->expects($this->once())->method('asXML')->will($this->returnValue($xml3));
 
         $this->reveal($channel)

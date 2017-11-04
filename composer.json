@@ -21,8 +21,8 @@
     "php": ">=5.4.0"
   },
   "require-dev": {
-    "EHER/PHPUnit": ">=1.6",
-    "mockery/mockery": ">=0.7.2",
+    "phpunit/phpunit": ">=4.8.36 <6.0",
+    "mockery/mockery": ">=0.9 <1.0",
     "suin/xoopsunit": ">=1.2"
   },
   "autoload": {
