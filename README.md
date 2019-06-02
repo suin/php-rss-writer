@@ -13,6 +13,7 @@ This library can also be used to publish Podcasts.
 
 ## Quick demo
 
+Blog
 
 ```php
 $feed = new Feed();
@@ -42,15 +43,6 @@ $item
     ->pubDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
     ->guid('http://blog.example.com/2012/08/21/blog-entry/', true)
     ->preferCdata(true) // By this, title and description become CDATA wrapped HTML.
-    ->appendTo($channel);
-
-// Podcast item
-$item = new Item();
-$item
-    ->title('Some Podcast Entry')
-    ->description('<div>Podcast body</div>')
-    ->url('http://podcast.example.com/2012/08/21/podcast-entry/')
-    ->enclosure('http://podcast.example.com/2012/08/21/podcast.mp3', 4889, 'audio/mpeg')
     ->appendTo($channel);
 
 echo $feed; // or echo $feed->render();
@@ -86,6 +78,102 @@ Output:
       <link>http://podcast.example.com/2012/08/21/podcast-entry/</link>
       <description>&lt;div&gt;Podcast body&lt;/div&gt;</description>
       <enclosure url="http://podcast.example.com/2012/08/21/podcast.mp3" type="audio/mpeg" length="4889"/>
+    </item>
+  </channel>
+</rss>
+```
+
+Podcast
+
+```php
+$feed = new Feed();
+
+$itunesCategories = [
+    'Sports' => null,
+    'Technology' => [
+        'Gadgets' => null,
+    ],
+    'Arts' => null,
+];
+
+$channelPodcast = new ChannelPodcast();
+
+$channelPodcast
+    ->author('Author')
+    ->subtitle('Subtitle')
+    ->summary('Summary')
+    ->owner(['name'=> 'John', 'email' => 'john@example.com'])
+    ->image('https://www.example.com/picture.jpg')
+    ->category($itunesCategories);
+
+$channel = new Channel();
+
+$channel
+    ->title('Channel Title')
+    ->description('Channel Description')
+    ->url('http://blog.example.com')
+    ->language('en-US')
+    ->copyright('Copyright 2012, Foo Bar')
+    ->pubDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
+    ->lastBuildDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
+    ->ttl(60)
+    ->podcast($channelPodcast)
+    ->appendTo($feed);
+
+$itemPodcast = new ItemPodcast();
+$itemPodcast
+    ->author('nono')
+    ->subtitle('I am nono subtitle')
+    ->image('https://www.example.com/picture.jpg');
+
+$item = new Item();
+$item
+    ->title('Some Podcast Entry')
+    ->description('<div>Podcast body</div>')
+    ->url('http://podcast.example.com/2012/08/21/podcast-entry/')
+    ->enclosure('http://podcast.example.com/2012/08/21/podcast.mp3', 4889, 'audio/mpeg')
+    ->podcast($itemPodcast)
+    ->appendTo($channel);
+
+print $feed->asPodcast()->render();
+```
+
+Output:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0">
+  <channel>
+    <title>Channel Title</title>
+    <link>http://blog.example.com</link>
+    <description>Channel Description</description>
+    <language>en-US</language>
+    <copyright>Copyright 2012, Foo Bar</copyright>
+    <pubDate>Tue, 21 Aug 2012 18:50:37 +0800</pubDate>
+    <lastBuildDate>Tue, 21 Aug 2012 18:50:37 +0800</lastBuildDate>
+    <ttl>60</ttl>
+    <itunes:author>Author</itunes:author>
+    <itunes:subtitle>Subtitle</itunes:subtitle>
+    <itunes:summary>Summary</itunes:summary>
+    <itunes:owner>
+      <itunes:name>John</itunes:name>
+      <itunes:email>john@example.com</itunes:email>
+    </itunes:owner>
+    <itunes:image href="https://www.example.com/picture.jpg"/>
+    <itunes:category text="Sports"/>
+    <itunes:category text="Technology">
+      <itunes:category text="Gadgets"/>
+    </itunes:category>
+    <itunes:category text="Gadgets"/>
+    <itunes:category text="Arts"/>
+    <item>
+      <title>Some Podcast Entry</title>
+      <link>http://podcast.example.com/2012/08/21/podcast-entry/</link>
+      <description>&lt;div&gt;Podcast body&lt;/div&gt;</description>
+      <enclosure url="http://podcast.example.com/2012/08/21/podcast.mp3" type="audio/mpeg" length="4889"/>
+      <itunes:author>nono</itunes:author>
+      <itunes:subtitle>I am nono subtitle</itunes:subtitle>
+      <itunes:image href="https://www.example.com/picture.jpg"/>
     </item>
   </channel>
 </rss>

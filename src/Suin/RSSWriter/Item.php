@@ -41,6 +41,9 @@ class Item implements ItemInterface
     /** @var string */
     protected $creator;
 
+    /** @var object */
+    protected $podcast;
+
     protected $preferCdata = false;
 
     public function title($title)
@@ -114,6 +117,12 @@ class Item implements ItemInterface
     public function creator($creator)
     {
         $this->creator = $creator;
+        return $this;
+    }
+
+    public function podcast($podcast)
+    {
+        $this->podcast = $podcast;
         return $this;
     }
 
@@ -194,6 +203,15 @@ class Item implements ItemInterface
 
         if (!empty($this->creator)) {
             $xml->addChild('dc:creator', $this->creator,"http://purl.org/dc/elements/1.1/");
+        }
+
+        //podcast
+        if ($this->podcast && is_object($this->podcast)) {
+            $fromDom = dom_import_simplexml($this->podcast->asXML());
+            foreach ($fromDom->childNodes as $key => $val) {
+                $toDom = dom_import_simplexml($xml);
+                $toDom->appendChild($toDom->ownerDocument->importNode($val, true));
+            }
         }
 
         return $xml;

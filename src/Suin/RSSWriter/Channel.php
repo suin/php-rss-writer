@@ -41,6 +41,9 @@ class Channel implements ChannelInterface
     /** @var ItemInterface[] */
     protected $items = [];
 
+    /** @var Object */
+    protected $podcast;
+
     /**
      * Set channel title
      * @param string $title
@@ -162,6 +165,17 @@ class Channel implements ChannelInterface
     }
 
     /**
+     * Set channel podcast
+     * @param object $podcast
+     * @return $this
+     */
+    public function podcast($podcast)
+    {
+        $this->podcast = $podcast;
+        return $this;
+    }
+
+    /**
      * Add item object
      * @param ItemInterface $item
      * @return $this
@@ -230,6 +244,14 @@ class Channel implements ChannelInterface
             $hubUrl = $xml->addChild('xmlns:atom:link');
             $hubUrl->addAttribute('rel', 'hub');
             $hubUrl->addAttribute('href', $this->pubsubhubbub['hubUrl']);
+        }
+
+        if ($this->podcast && is_object($this->podcast)) {
+            $fromDom = dom_import_simplexml($this->podcast->asXML());
+            foreach ($fromDom->childNodes as $key => $val) {
+                $toDom = dom_import_simplexml($xml);
+                $toDom->appendChild($toDom->ownerDocument->importNode($val, true));
+            }
         }
 
         foreach ($this->items as $item) {
