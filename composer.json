@@ -1,5 +1,5 @@
 {
-  "name": "suin/php-rss-writer",
+  "name": "johnpupu/php-rss-writer",
   "type": "library",
   "description": "Yet another simple RSS writer library for PHP 5.4 or later.",
   "keywords": [
@@ -9,12 +9,12 @@
     "feed",
     "php"
   ],
-  "homepage": "https://github.com/suin/php-rss-writer",
+  "homepage": "https://github.com/johnpupu/php-rss-writer",
   "license": "MIT",
   "authors": [
     {
-      "name": "suin",
-      "email": "suinyeze@gmail.com"
+      "name": "johnpupu",
+      "email": "johnpupuyeze@gmail.com"
     }
   ],
   "require": {
@@ -23,7 +23,7 @@
   "require-dev": {
     "phpunit/phpunit": ">=4.8.36 <6.0",
     "mockery/mockery": ">=0.9 <1.0",
-    "suin/xoopsunit": ">=1.2"
+    "johnpupu/xoopsunit": ">=1.2"
   },
   "autoload": {
     "psr-0": {
