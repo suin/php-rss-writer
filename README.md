@@ -179,7 +179,7 @@ Output:
 You can install directly via [Composer](https://getcomposer.org/):
 
 ```bash
-$ composer require suin/php-rss-writer
+$ composer require johnpupu/php-rss-writer
 ```
 
 ### Manual installation
@@ -188,9 +188,9 @@ Add the following code to your `composer.json` file:
 
 ```json
 {
-	"require": {
-		"suin/php-rss-writer": ">=1.0"
-	}
+    "require": {
+        "johnpupu/php-rss-writer": "dev-master@dev"
+    }
 }
 ```
 
