@@ -165,8 +165,10 @@ class ChannelPodcast
 
             $itunesCategories = $fromDom->getElementsByTagName('itunes:category');
             foreach ($itunesCategories as $key => $itunesCategory) {
-                $toDom = dom_import_simplexml($xml);
-                $toDom->appendChild($toDom->ownerDocument->importNode($itunesCategory, true));
+                if ($itunesCategory->parentNode->tagName == 'channel') {
+                    $toDom = dom_import_simplexml($xml);
+                    $toDom->appendChild($toDom->ownerDocument->importNode($itunesCategory, true));
+                }
             }
         }
 
