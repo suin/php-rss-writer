@@ -18,6 +18,15 @@ class ItemPodcast
     /** @var string */
     protected $summary;
 
+    /** @var string */
+    protected $image;
+
+    /** @var string */
+    protected $duration;
+
+    /** @var string */
+    protected $explicit;
+
     protected $preferCdata = false;
 
     /**
@@ -71,7 +80,7 @@ class ItemPodcast
      */
     public function duration($duration)
     {
-        $this->image = $image;
+        $this->duration = $duration;
         return $this;
     }
 
