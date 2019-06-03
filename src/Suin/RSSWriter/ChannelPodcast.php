@@ -149,13 +149,13 @@ class ChannelPodcast
                 if (!is_array($val)) {
                     $son = $fromDom->createElement('itunes:category');
                     $domAttribute = $fromDom->createAttribute('text');
-                    $domAttribute->value = $k;
+                    $domAttribute->value = htmlentities($k);
                     $son->appendChild($domAttribute);
                     $obj->appendChild($son);
                 } else {
                     $son = $fromDom->createElement('itunes:category');
                     $domAttribute = $fromDom->createAttribute('text');
-                    $domAttribute->value = $k;
+                    $domAttribute->value = htmlentities($k);
                     $son->appendChild($domAttribute);
                     $obj->appendChild($son);
                     $obj = $son;
