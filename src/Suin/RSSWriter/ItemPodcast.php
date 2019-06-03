@@ -18,6 +18,8 @@ class ItemPodcast
     /** @var string */
     protected $summary;
 
+    protected $preferCdata = false;
+
     /**
      * Set item itunes:author
      * @param string $author
@@ -84,6 +86,12 @@ class ItemPodcast
         return $this;
     }
 
+    public function preferCdata($preferCdata)
+    {
+        $this->preferCdata = (bool)$preferCdata;
+        return $this;
+    }
+
     public function asXML()
     {
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item></item>', LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_ERR_FATAL);
@@ -96,9 +104,13 @@ class ItemPodcast
             $xml->addChild('xmlns:itunes:subtitle', $this->subtitle);
         }
 
-        if ($this->summary !== null) {
-            $xml->addChild('xmlns:itunes:summary', $this->summary);
-        }
+				if ($this->summary !== null) {
+						if ($this->preferCdata) {
+								$xml->addCdataChild('xmlns:itunes:summary', $this->summary);
+						} else {
+								$xml->addChild('summary', $this->summary);
+						}
+				}
 
         if ($this->image !== null) {
             $image = $xml->addChild('xmlns:itunes:image');
