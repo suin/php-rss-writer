@@ -8,6 +8,8 @@ namespace Suin\RSSWriter;
  */
 class ItemPodcast
 {
+    /** @var string */
+    protected $title;
 
     /** @var string */
     protected $subtitle;
@@ -37,6 +39,17 @@ class ItemPodcast
     public function author($author)
     {
         $this->author = $author;
+        return $this;
+    }
+
+    /**
+     * Set item itunes:title
+     * @param string $title
+     * @return $this
+     */
+    public function title($title)
+    {
+        $this->title = $title;
         return $this;
     }
 
@@ -104,6 +117,10 @@ class ItemPodcast
     public function asXML()
     {
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><item></item>', LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_ERR_FATAL);
+
+        if ($this->title !== null) {
+            $xml->addChild('xmlns:itunes:title', $this->title);
+        }
 
         if ($this->author !== null) {
             $xml->addChild('xmlns:itunes:author', $this->author);
