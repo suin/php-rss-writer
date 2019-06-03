@@ -44,6 +44,8 @@ class Channel implements ChannelInterface
     /** @var Object */
     protected $podcast;
 
+    protected $preferCdata = false;
+
     /**
      * Set channel title
      * @param string $title
@@ -175,6 +177,12 @@ class Channel implements ChannelInterface
         return $this;
     }
 
+    public function preferCdata($preferCdata)
+    {
+        $this->preferCdata = (bool)$preferCdata;
+        return $this;
+    }
+
     /**
      * Add item object
      * @param ItemInterface $item
@@ -206,7 +214,14 @@ class Channel implements ChannelInterface
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><channel></channel>', LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_ERR_FATAL);
         $xml->addChild('title', $this->title);
         $xml->addChild('link', $this->url);
-        $xml->addChild('description', $this->description);
+
+        if ($this->description) {
+            if ($this->preferCdata) {
+                $xml->addCdataChild('description', $this->description);
+            } else {
+                $xml->addChild('description', $this->description);
+            }
+        }
 
         if($this->feedUrl !== null) {
             $link = $xml->addChild('atom:link', '', "http://www.w3.org/2005/Atom");
