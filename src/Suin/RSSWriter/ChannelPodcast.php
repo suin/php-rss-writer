@@ -20,6 +20,8 @@ class ChannelPodcast
     /** @var string */
     protected $owner;
 
+    protected $preferCdata = false;
+
     /**
      * Set channel itunes:subtitle
      * @param string $subtitle
@@ -86,6 +88,12 @@ class ChannelPodcast
         return $this;
     }
 
+    public function preferCdata($preferCdata)
+    {
+        $this->preferCdata = (bool)$preferCdata;
+        return $this;
+    }
+
     public function asXML()
     {
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><channel></channel>', LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_ERR_FATAL);
@@ -98,8 +106,12 @@ class ChannelPodcast
             $xml->addChild('xmlns:itunes:subtitle', $this->subtitle);
         }
 
-        if ($this->summary !== null) {
-            $xml->addChild('xmlns:itunes:summary', $this->summary);
+        if ($this->summary) {
+            if ($this->preferCdata) {
+                $xml->addCdataChild('xmlns:itunes:summary', $this->summary);
+            } else {
+                $xml->addChild('xmlns:itunes:summary', $this->summary);
+            }
         }
 
         if ($this->owner !== null && is_array($this->owner)) {
