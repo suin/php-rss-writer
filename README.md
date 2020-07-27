@@ -25,6 +25,7 @@ $channel
     ->feedUrl('http://blog.example.com/rss')
     ->language('en-US')
     ->copyright('Copyright 2012, Foo Bar')
+    ->itunescategory('History')
     ->pubDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
     ->lastBuildDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
     ->ttl(60)
