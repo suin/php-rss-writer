@@ -113,6 +113,12 @@ class Channel implements ChannelInterface
         return $this;
     }
 
+    public function itunescategory($itunescategory)
+    {
+        $this->itunescategory = $itunescategory;
+        return $this;
+    }
+
     /**
      * Set channel published date
      * @param int $pubDate Unix timestamp
@@ -207,6 +213,11 @@ class Channel implements ChannelInterface
 
         if ($this->copyright !== null) {
             $xml->addChild('copyright', $this->copyright);
+        }
+
+        if($this->itunescategory !== null) {
+            $link = $xml->addChild("itunes:itunes:category");
+            $link->addAttribute('text',$this->itunescategory);
         }
 
         if ($this->pubDate !== null) {
