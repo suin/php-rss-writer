@@ -28,7 +28,7 @@ class Feed implements FeedInterface
      * Render XML
      * @return string
      */
-    public function render()
+    public function render($isOutputFormatted = true)
     {
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" />', LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_ERR_FATAL);
 
@@ -40,7 +40,7 @@ class Feed implements FeedInterface
 
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->appendChild($dom->importNode(dom_import_simplexml($xml), true));
-        $dom->formatOutput = true;
+        $dom->formatOutput = $isOutputFormatted;
         return $dom->saveXML();
     }
 
